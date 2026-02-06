@@ -1,11 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { HeroSection } from "@/components/modules/homepage/HeroSection";
 
 export default function Home() {
   return (
     <div className="flex gap-20  min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <h3>MediStore Client..</h3>
-
-      <Button>Click me</Button>
+      <HeroSection />
     </div>
   );
 }
