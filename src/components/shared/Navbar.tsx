@@ -1,6 +1,6 @@
 "use client";
 
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -27,6 +27,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Link from "next/link";
+import { ThemeChanger } from "./ThemeChanger";
 
 interface MenuItem {
   title: string;
@@ -109,6 +110,9 @@ const Navbar = ({
             </div>
           </div>
           <div className="flex gap-2">
+            <div>
+              <ThemeChanger />
+            </div>
             <Button asChild variant="outline" size="sm">
               <a href={auth.login.url}>{auth.login.title}</a>
             </Button>
