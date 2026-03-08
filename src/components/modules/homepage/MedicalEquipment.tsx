@@ -29,8 +29,8 @@ interface Gallery6Props {
 }
 
 const MedicalEquipment = ({
-  heading = "Gallery",
-  demoUrl = "https://www.shadcnblocks.com",
+  heading = "We Have Medical Equipment.",
+
   items = [
     {
       id: "item-1",
@@ -98,20 +98,13 @@ const MedicalEquipment = ({
     };
   }, [carouselApi]);
   return (
-    <section className={cn("py-32 ", className)}>
+    <section className={cn("py-10 px-4  max-w-7xl ", className)}>
       <div className="container mx-auto">
-        <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
-          <div>
-            <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6">
+        <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16 px-2">
+          <div className="flex items-center">
+            <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6 text-center">
               {heading}
             </h2>
-            <a
-              href={demoUrl}
-              className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
-            >
-              Book a demo
-              <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1" />
-            </a>
           </div>
           <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
             <Button
@@ -139,7 +132,7 @@ const MedicalEquipment = ({
           </div>
         </div>
       </div>
-      <div className="w-6xl mx-auto">
+      <div className="mx-auto px-4 border-red-700">
         <Carousel
           setApi={setCarouselApi}
           opts={{
