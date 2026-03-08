@@ -1,10 +1,11 @@
 import { Contact } from "@/components/modules/homepage/ContactPage";
 import { HeroSection } from "@/components/modules/homepage/HeroSection";
 import { MedicalEquipment } from "@/components/modules/homepage/MedicalEquipment";
+import { env } from "@/env";
 import { cookies } from "next/headers";
 
 export default async function Home() {
-  const AUTH_URL = process.env.AUTH_URL;
+  const AUTH_URL = env.AUTH_URL;
   const cookieStore = await cookies();
   console.log(cookieStore.toString());
 
