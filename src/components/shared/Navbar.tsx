@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/sheet";
 import Link from "next/link";
 import { ThemeChanger } from "./ThemeChanger";
+import { authClient } from "@/lib/auth-client";
 
 interface MenuItem {
   title: string;
@@ -88,6 +89,11 @@ const Navbar = ({
   },
   className,
 }: Navbar1Props) => {
+  const { data: session, isPending } = authClient.useSession();
+  const handleLogout = async () => {
+    await authClient.signOut();
+    window.location.reload();
+  };
   return (
     <section className={cn("py-4", className)}>
       <div className="container mx-auto">
@@ -113,12 +119,18 @@ const Navbar = ({
             <div>
               <ThemeChanger />
             </div>
-            <Button asChild variant="outline" size="sm">
-              <a href={auth.login.url}>{auth.login.title}</a>
-            </Button>
-            <Button asChild size="sm">
+            {session?.user ? (
+              <Button variant="outline" size="sm" onClick={handleLogout}>
+                Logout
+              </Button>
+            ) : (
+              <Button asChild variant="outline" size="sm">
+                <Link href={auth.login.url}>{auth.login.title}</Link>
+              </Button>
+            )}
+            {/* <Button asChild size="sm">
               <a href={auth.signup.url}>{auth.signup.title}</a>
-            </Button>
+            </Button> */}
           </div>
         </nav>
 
@@ -161,12 +173,15 @@ const Navbar = ({
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
-                    <Button asChild variant="outline">
-                      <Link href={auth.login.url}>{auth.login.title}</Link>
-                    </Button>
-                    <Button asChild>
-                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                    </Button>
+                    {session?.user ? (
+                      <Button variant="outline" onClick={handleLogout}>
+                        Logout
+                      </Button>
+                    ) : (
+                      <Button asChild variant="outline">
+                        <Link href={auth.login.url}>{auth.login.title}</Link>
+                      </Button>
+                    )}
                   </div>
                 </div>
               </SheetContent>

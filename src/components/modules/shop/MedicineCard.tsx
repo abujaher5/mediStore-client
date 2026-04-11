@@ -6,17 +6,18 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import Link from "next/link";
+// import Link from "next/link";
+import Image from "next/image";
 
-interface Post {
+interface Medicine {
   id: string;
-  title: string;
-  summary: string;
-  label: string;
-  author: string;
-  published: string;
-  url: string;
-  image: string;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  stock: number;
+  manufacturer: string;
+  sellerId: string;
 }
 
 interface Blog7Props {
@@ -25,51 +26,18 @@ interface Blog7Props {
   description: string;
   buttonText: string;
   buttonUrl: string;
-  posts: Post[];
+  medicines: Medicine[];
   className?: string;
 }
 
-const MedicineCard = ({
-  posts = [
-    {
-      id: "post-1",
-      title: "Getting Started with shadcn/ui Components",
-      summary:
-        "Learn how to quickly integrate and customize shadcn/ui components in your Next.js projects. We'll cover installation, theming, and best practices for building modern interfaces.",
-      label: "Tutorial",
-      author: "Sarah Chen",
-      published: "1 Jan 2024",
-      url: "https://shadcnblocks.com",
-      image:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
+const MedicineCard = async ({ className }: Blog7Props) => {
+  const data = await fetch("http://localhost:5000/api/medicines", {
+    cache: "no-store",
+    next: {
+      revalidate: 5,
     },
-    {
-      id: "post-2",
-      title: "Building Accessible Web Applications",
-      summary:
-        "Explore how to create inclusive web experiences using shadcn/ui's accessible components. Discover practical tips for implementing ARIA labels, keyboard navigation, and semantic HTML.",
-      label: "Accessibility",
-      author: "Marcus Rodriguez",
-      published: "1 Jan 2024",
-      url: "https://shadcnblocks.com",
-      image:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "post-3",
-      title: "Modern Design Systems with Tailwind CSS",
-      summary:
-        "Dive into creating scalable design systems using Tailwind CSS and shadcn/ui. Learn how to maintain consistency while building flexible and maintainable component libraries.",
-      label: "Design Systems",
-      author: "Emma Thompson",
-      published: "1 Jan 2024",
-      url: "https://shadcnblocks.com",
-      image:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
-    },
-  ],
-  className,
-}: Blog7Props) => {
+  });
+  const medicines: Medicine[] = await data.json();
   return (
     <section className={cn("py-10", className)}>
       <div className="container mx-auto flex flex-col items-center gap-10 lg:px-10">
@@ -84,43 +52,56 @@ const MedicineCard = ({
           </div>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {posts.map((post) => (
+          {medicines.map((medicine) => (
             <Card
-              key={post.id}
+              key={medicine.id}
               className="grid grid-rows-[auto_auto_1fr_auto] overflow-hidden pt-0"
             >
-              <div className="aspect-16/9 w-full">
-                <a
-                  href={post.url}
-                  target="_blank"
-                  className="transition-opacity duration-200 fade-in hover:opacity-70"
-                >
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="h-full w-full object-cover object-center"
-                  />
-                </a>
+              <div className="flex items-center ">
+                <Image
+                  src={medicine.imageUrl}
+                  priority
+                  width={300}
+                  height={300}
+                  alt={medicine.name}
+                  className=" object-cover object-center rounded-md"
+                />
               </div>
+
               <CardHeader>
-                <h3 className="text-lg font-semibold hover:underline md:text-xl">
-                  <a href={post.url} target="_blank">
-                    {post.title}
-                  </a>
-                </h3>
+                <div className="flex justify-between">
+                  <h3 className="text-lg font-semibold  md:text-xl">
+                    {medicine.name}
+                  </h3>
+                </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">{post.summary}</p>
+                <div>
+                  <p className="text-muted-foreground">
+                    {medicine.description}
+                  </p>
+                  <div className="flex justify-between mt-2 px-2 pt-2">
+                    <p className="text-lg  font-semibold text-green-500  md:text-xl">
+                      Stock : {medicine.stock}
+                    </p>
+                    <p className="text-lg  font-semibold   md:text-xl">
+                      Price :
+                      <span className="text-lg  font-semibold text-yellow-500  md:text-xl pl-2">
+                        {medicine.price}
+                      </span>
+                    </p>
+                  </div>
+                </div>
               </CardContent>
               <CardFooter className=" flex justify-center items-center">
-                <Link
-                  href={post.url}
-                  className=" items-center text-foreground 
+                {/* <Link
+                  href={medicine.url}
+                  className=" text-center text-foreground w-1/2
                   border-2 px-2 py-1 rounded-lg 
                   hover:text-white hover:bg-gray-400"
                 >
                   Medicine Details
-                </Link>
+                </Link> */}
               </CardFooter>
             </Card>
           ))}
