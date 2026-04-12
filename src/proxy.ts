@@ -22,7 +22,7 @@ export async function proxy(request: NextRequest) {
 
   // user is authenticated but role= ADMIN
   // user can not visit user dashboard
-  if (isAdmin && pathname.startsWith("customer-dashboard")) {
+  if (isAdmin && pathname.startsWith("seller-dashboard")) {
     return NextResponse.redirect(new URL("/admin-dashboard", request.url));
   }
 
@@ -30,7 +30,7 @@ export async function proxy(request: NextRequest) {
   // user can not visit admin dashboard
 
   if (!isAdmin && pathname.startsWith("/admin-dashboard")) {
-    return NextResponse.redirect(new URL("/user-dashboard", request.url));
+    return NextResponse.redirect(new URL("/seller-dashboard", request.url));
   }
 
   return NextResponse.next();
@@ -38,8 +38,8 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/user-dashboard",
-    "/user-dashboard/:path*",
+    "/seller-dashboard",
+    "/seller-dashboard/:path*",
     "/admin-dashboard",
     "/admin-dashboard/:path*",
   ],
