@@ -2,6 +2,7 @@ import { Contact } from "@/components/modules/homepage/ContactPage";
 import { HeroSection } from "@/components/modules/homepage/HeroSection";
 import { MedicalEquipment } from "@/components/modules/homepage/MedicalEquipment";
 import { env } from "@/env";
+import { userService } from "@/services/user.services";
 import { cookies } from "next/headers";
 
 export default async function Home() {
@@ -15,7 +16,11 @@ export default async function Home() {
     },
     cache: "no-store",
   });
+
   console.log(await res.json());
+
+  const { data } = await userService.getSession();
+  console.log(data, "From Home page");
   return (
     <div className="flex gap-20 flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <HeroSection />

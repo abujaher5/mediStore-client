@@ -9,6 +9,7 @@ export async function proxy(request: NextRequest) {
   let isAdmin = false;
 
   const { data } = await userService.getSession();
+  console.log(data, " data from proxy");
 
   if (data) {
     isAuthenticated = true;
@@ -37,10 +38,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/seller-dashboard",
-    "/seller-dashboard/:path*",
-    "/admin-dashboard",
-    "/admin-dashboard/:path*",
-  ],
+  matcher: [],
 };

@@ -5,26 +5,43 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Roles } from "@/constants/roles";
+import { userService } from "@/services/user.services";
 
-export default function DashboardLayout({
-  children,
+export default async function DashboardLayout({
   admin,
   seller,
   customer,
 }: {
-  children: React.ReactNode;
   admin: React.ReactNode;
-  user: React.ReactNode;
+  seller: React.ReactNode;
   customer: React.ReactNode;
 }) {
+  // const user = {
+  //   role: "admin",
+  // };
+
+  const { data } = await userService.getSession();
+  console.log(data);
+
+  const userInfo = data.user;
+  console.log("userInfo", userInfo);
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar user={userInfo} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+        <div className="flex flex-1 flex-col gap-4 p-4">
+          {/* {userInfo.role === "admin" ? admin : seller} */}
+
+          {userInfo.role === Roles.admin
+            ? admin
+            : userInfo.role === Roles.seller
+              ? seller
+              : customer}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
