@@ -1,7 +1,7 @@
 const CustomerDashboard = () => {
   return (
     <div>
-      <h2>Customer Dashboard</h2>
+      <h2>Customer Dashboard Only</h2>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 const SellerDashboard = () => {
   return (
     <div>
-      <h2>Seller Dashboard</h2>
+      <h2>Seller Dashboard For Management.</h2>
     </div>
   );
 };

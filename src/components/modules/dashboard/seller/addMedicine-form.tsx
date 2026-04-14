@@ -10,16 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-export function CreateMedicineForm({
+export function AddMedicineForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -40,7 +35,7 @@ export function CreateMedicineForm({
       stock: Number(formData.get("stock")),
       manufacturer: formData.get("manufacturer"),
       categoryId: formData.get("categoryId"),
-      imageUrl: formData.get("imageUrl"), // ✅ string
+      imageUrl: formData.get("imageUrl"),
     };
 
     try {
@@ -50,7 +45,7 @@ export function CreateMedicineForm({
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
-        credentials: "include", // for auth
+        credentials: "include",
       });
 
       const data = await res.json();
@@ -63,7 +58,7 @@ export function CreateMedicineForm({
       form.reset();
     } catch (error) {
       console.error(error);
-      alert("Failed to add medicine ❌");
+      alert("Failed to add medicine");
     } finally {
       setLoading(false);
     }
@@ -110,7 +105,6 @@ export function CreateMedicineForm({
                 <Input name="categoryId" required />
               </Field>
 
-              {/* ✅ Image URL instead of file */}
               <Field>
                 <FieldLabel>Image URL</FieldLabel>
                 <Input
@@ -126,10 +120,6 @@ export function CreateMedicineForm({
                   {loading ? "Adding..." : "Add Medicine"}
                 </Button>
               </Field>
-
-              <FieldDescription className="text-center">
-                Enter a valid image URL (Cloudinary or any public link)
-              </FieldDescription>
             </FieldGroup>
           </form>
         </CardContent>

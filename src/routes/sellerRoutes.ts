@@ -8,8 +8,20 @@ export const sellerRoutes = [
         url: "/seller-dashboard/add-medicine",
       },
       {
+        title: "Update Medicine",
+        url: "/seller-dashboard/update-medicine",
+      },
+      {
+        title: "Delete Medicine",
+        url: "/seller-dashboard/delete-medicine",
+      },
+      {
         title: "My Added Medicine",
         url: "/seller-dashboard/my-added-medicine",
+      },
+      {
+        title: "Back To Home",
+        url: "/",
       },
     ],
   },

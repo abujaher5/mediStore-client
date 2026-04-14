@@ -2,10 +2,14 @@ export const customerRoutes = [
   {
     title: "Customer Dashboard",
     items: [
-      { title: "User Management", url: "/user-management" },
+      { title: "My Orders", url: "/my-orders" },
       {
         title: "Delete User",
         url: "/admin-dashboard/delete-user",
+      },
+      {
+        title: "Back To Home",
+        url: "/",
       },
     ],
   },

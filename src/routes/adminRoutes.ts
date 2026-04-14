@@ -7,6 +7,10 @@ export const adminRoutes = [
         title: "Delete User",
         url: "/admin-dashboard/delete-user",
       },
+      {
+        title: "Back To Home",
+        url: "/",
+      },
     ],
   },
 ];
