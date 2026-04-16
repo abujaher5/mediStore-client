@@ -19,8 +19,7 @@ export const medicineService = {
 
   getMedicineDetails: async function (id: string) {
     try {
-      const res = await fetch(`${API_URL}/medicines/
-        ${id}`);
+      const res = await fetch(`${API_URL}/medicines/${id}`);
       const data = await res.json();
       console.log(data, "from medicine service");
       return { data: data, error: null };
