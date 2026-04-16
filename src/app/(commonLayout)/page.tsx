@@ -22,8 +22,8 @@ export default async function Home() {
   // const { data } = await userService.getSession();
   // console.log(data, "From Home page");
 
-  const data = await medicineService.getAllMedicines();
-  console.log(data);
+  // const data = await medicineService.getAllMedicines();
+  // console.log(data);
   return (
     <div className="flex gap-20 flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <HeroSection />

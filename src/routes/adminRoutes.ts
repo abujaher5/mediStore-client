@@ -4,9 +4,16 @@ export const adminRoutes = [
     items: [
       { title: "User Management", url: "/user-management" },
       {
-        title: "Delete User",
-        url: "/admin-dashboard/delete-user",
+        title: "All Users",
+        url: "/admin-dashboard/all-users",
       },
+      {
+        title: "Manage User Status",
+        url: "/admin-dashboard/update-status",
+      },
+      { title: "Manage Categories", url: "/admin-dashboard/manage-categories" },
+      { title: "All Medicines", url: "/admin-dashboard/all-medicines" },
+      { title: "All Orders", url: "/admin-dashboard/all-orders" },
       {
         title: "Back To Home",
         url: "/",

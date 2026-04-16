@@ -7,4 +7,5 @@ export interface Medicine {
   stock: number;
   manufacturer: string;
   categoryId: string;
+  className?: string;
 }

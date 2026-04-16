@@ -16,4 +16,22 @@ export const medicineService = {
       return { data: null, error: { message: "Something Went Wrong.." } };
     }
   },
+
+  getMedicineDetails: async function (id: string) {
+    try {
+      const res = await fetch(`${API_URL}/medicines/
+        ${id}`);
+      const data = await res.json();
+      console.log(data, "from medicine service");
+      return { data: data, error: null };
+    } catch (error) {
+      console.error(error);
+      return {
+        data: null,
+        error: {
+          message: "Something went wrong...",
+        },
+      };
+    }
+  },
 };

@@ -8,6 +8,11 @@ export const sellerRoutes = [
         url: "/seller-dashboard/add-medicine",
       },
       {
+        title: "My Added Medicine",
+        url: "/seller-dashboard/my-added-medicine",
+      },
+
+      {
         title: "Update Medicine",
         url: "/seller-dashboard/update-medicine",
       },
@@ -16,9 +21,14 @@ export const sellerRoutes = [
         url: "/seller-dashboard/delete-medicine",
       },
       {
-        title: "My Added Medicine",
-        url: "/seller-dashboard/my-added-medicine",
+        title: "Manage Stock",
+        url: "/seller-dashboard/manage-stock",
       },
+      {
+        title: "View Orders",
+        url: "/seller-dashboard/orders",
+      },
+
       {
         title: "Back To Home",
         url: "/",
