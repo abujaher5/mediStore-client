@@ -6,6 +6,9 @@ import { userService } from "./services/user.service";
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  // const accessToken = request.cookies.get("accessToken")?.value;
+  // console.log(accessToken);
+
   let isAuthenticated = false;
   let isAdmin = false;
   let isCustomer = false;

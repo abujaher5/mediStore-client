@@ -1,6 +1,8 @@
+import { env } from "@/env";
 import { cookies } from "next/headers";
 
 const AUTH_URL = process.env.AUTH_URL;
+const API_URL = env.API_URL;
 
 export const userService = {
   getSession: async function () {
@@ -23,5 +25,32 @@ export const userService = {
       console.error(error);
       return { data: null, error: { message: "Something Went Wrong.." } };
     }
+  },
+
+  getAllUsers: async function () {
+    try {
+      const res = await fetch(`${API_URL}/admin/users`);
+      const data = await res.json();
+
+      return { data: data, error: null };
+    } catch (error) {
+      console.error(error);
+      return { data: null, error: { message: "Something Went Wrong.." } };
+    }
+  },
+
+  updateUserStatus: async (id: string) => {
+    const res = await fetch(`${API_URL}/admin/users/${id}/status`, {
+      method: "PATCH",
+      credentials: "include",
+    });
+    return res.json();
+  },
+  deleteUser: async (id: string) => {
+    const res = await fetch(`${API_URL}/admin/users/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    return res.json();
   },
 };
