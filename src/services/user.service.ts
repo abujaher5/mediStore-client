@@ -53,4 +53,9 @@ export const userService = {
     });
     return res.json();
   },
+
+  // getMe:async()=>{
+  //   const res=await fetch()
+
+  // }
 };

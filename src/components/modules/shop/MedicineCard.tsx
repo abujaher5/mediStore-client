@@ -1,25 +1,12 @@
-import { cn } from "@/lib/utils";
-
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-// import Link from "next/link";
 import Image from "next/image";
 import { Medicine } from "@/types";
 import Link from "next/link";
-
-// interface Blog7Props {
-//   tagline: string;
-//   heading: string;
-//   description: string;
-//   buttonText: string;
-//   buttonUrl: string;
-//   medicines: Medicine[];
-//   className?: string;
-// }
 
 const MedicineCard = ({ medicine }: { medicine: Medicine }) => {
   return (

@@ -9,3 +9,11 @@ export interface Medicine {
   categoryId: string;
   className?: string;
 }
+export interface GetMedicineParams {
+  search?: string;
+}
+
+export interface ServiceOptions {
+  cache?: RequestCache;
+  revalidate?: number;
+}

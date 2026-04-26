@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface Hero3Props {
   heading?: string;
@@ -123,10 +124,13 @@ const HeroSection = ({
           </div>
         </div>
         <div className="flex">
-          <img
-            src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-1.svg"
-            alt="placeholder hero"
-            className="max-h-[600px] w-full rounded-md object-cover lg:max-h-[800px]"
+          <Image
+            src="https://res.cloudinary.com/dngogzccp/image/upload/v1777030616/medicineBanner_vyrrag.jpg"
+            priority
+            height={600}
+            width={600}
+            alt="Medicine Banner"
+            // className="max-h-[600px] w-full rounded-md object-cover lg:max-h-[800px]"
           />
         </div>
       </div>

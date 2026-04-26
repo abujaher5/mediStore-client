@@ -1,22 +1,58 @@
-// import { env } from "@/env";
-
 import { env } from "@/env";
 
 const API_URL = env.NEXT_PUBLIC_URL;
 
 export const medicineService = {
-  getAllMedicines: async function () {
-    try {
-      // const url = new URL(`${API_URL}/medicines`);
+  // getAllMedicines: async function (params?: string, options?: ServiceOptions) {
+  //   try {
+  //     const url = new URL(`${API_URL}/medicines`);
 
-      const res = await fetch(`${API_URL}/medicines`);
-      const data = await res.json();
+  //     if (params) {
+  //       Object.entries(params).forEach(([key, value]) => {
+  //         if (value !== undefined && value !== null && value !== "") {
+  //           url.searchParams.append(key, value);
+  //         }
+  //       });
+  //     }
 
-      return { data: data, error: null };
-    } catch (error) {
-      console.error(error);
-      return { data: null, error: { message: "Something Went Wrong.." } };
+  //     const config: RequestInit = {};
+  //     if (options?.cache) {
+  //       config.cache = options.cache;
+  //     }
+  //     if (options?.revalidate) {
+  //       config.next = { revalidate: options.revalidate };
+  //     }
+  //     const res = await fetch(url.toString(), { cache: "no-store" });
+  //     const data = await res.json();
+
+  //     return { data: data, error: null };
+  //   } catch (error) {
+  //     console.error(error);
+  //     return { data: null, error: { message: "Something Went Wrong.." } };
+  //   }
+  // },
+
+  // getAllMedicines: async (search?: string) => {
+  //   const query = search ? `?search=${search}` : "";
+
+  //   const res = await fetch(`${API_URL}/medicines${query}`, {
+  //     cache: "no-store",
+  //   });
+
+  //   return res.json();
+  // },
+
+  getAllMedicines: async ({ search }: { search?: string }) => {
+    const url = new URL(`${API_URL}/medicines`);
+
+    if (search) {
+      url.searchParams.append("search", search);
     }
+
+    const res = await fetch(url.toString(), {
+      cache: "no-store",
+    });
+    return res.json();
   },
 
   getMedicineDetails: async function (id: string) {

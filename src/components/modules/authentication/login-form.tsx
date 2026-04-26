@@ -22,6 +22,7 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import z from "zod";
 import { useForm } from "@tanstack/react-form";
+import { useRouter } from "next/navigation";
 const formSchema = z.object({
   email: z.email(),
   password: z.string().min(8, "Minimum length is 8. "),
@@ -31,11 +32,13 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
   const handleGoogleLogin = async () => {
     const data = authClient.signIn.social({
       provider: "google",
       callbackURL: "http://localhost:3000",
     });
+    router.push("/");
   };
   const form = useForm({
     defaultValues: {
@@ -59,6 +62,7 @@ export function LoginForm({
           return;
         }
         toast.success("User logged in successfully.", { id: toastId });
+        router.push("/");
       } catch (error) {
         toast.error("Something went wrong, please try aging later ..", {
           id: toastId,
@@ -68,7 +72,7 @@ export function LoginForm({
   });
 
   const session = authClient.useSession();
-  // console.log("session :", session);
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card {...props}>
