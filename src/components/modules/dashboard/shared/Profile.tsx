@@ -1,16 +1,15 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { userService } from "@/services/user.service";
-import { Profile } from "../../../../components/modules/dashboard/shared/Profile";
 
-const AdminDashboard = async () => {
+export const Profile = async () => {
   const { data } = await userService.getSession();
   const user = data?.user;
   return (
     <div>
       <h2>Admin dashboard..</h2>
 
-      {/* <div className="w-1/2 lg:w-1/3 mx-auto">
+      <div className="w-1/2 lg:w-1/3 mx-auto">
         <Card>
           <CardHeader>
             <CardTitle>My Profile</CardTitle>
@@ -41,10 +40,7 @@ const AdminDashboard = async () => {
             </div>
           </CardContent>
         </Card>
-      </div> */}
-      <Profile />
+      </div>
     </div>
   );
 };
-
-export default AdminDashboard;

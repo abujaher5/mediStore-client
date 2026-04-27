@@ -83,12 +83,12 @@ const Footer = ({
   ],
 }: Footer2Props) => {
   return (
-    <section className={cn("py-32", className)}>
+    <section className={cn("py-8", className)}>
       <div className="container mx-auto">
         <footer>
-          <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
-            <div className="col-span-2 mb-8 lg:mb-0">
-              <div className="flex items-center gap-2 lg:justify-start">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-8  lg:grid-cols-6">
+            <div className="col-span-2 mb-2 lg:mb-0">
+              <div className="flex items-center justify-center gap-2 md:justify-start lg:justify-start">
                 <Logo url="/">
                   <LogoImage
                     src={logo.src}
@@ -99,11 +99,13 @@ const Footer = ({
                   <LogoText className="text-xl">{logo.title}</LogoText>
                 </Logo>
               </div>
-              <p className="mt-4 font-bold">{tagline}</p>
+              <p className="mt-4 font-bold text-center md:text-start lg:text-start">
+                {tagline}
+              </p>
             </div>
             {menuItems.map((section, sectionIdx) => (
-              <div key={sectionIdx}>
-                <h3 className="mb-4 font-bold">{section.title}</h3>
+              <div key={sectionIdx} className="text-center lg:text-start ">
+                <h3 className="mb-4 font-bold ">{section.title}</h3>
                 <ul className="space-y-4 text-muted-foreground">
                   {section.links.map((link, linkIdx) => (
                     <li
@@ -117,6 +119,7 @@ const Footer = ({
               </div>
             ))}
           </div>
+
           <div className="mt-24 flex flex-col justify-between gap-4 border-t pt-8 text-sm font-medium text-muted-foreground md:flex-row md:items-center">
             <p>{copyright}</p>
             <ul className="flex gap-4">

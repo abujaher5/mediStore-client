@@ -21,14 +21,16 @@ export default function SearchInput() {
   };
 
   return (
-    <div className="py-4 flex items-center gap-4">
-      <div>Filter by</div>
-      <input
-        type="text"
-        placeholder="Search Medicine"
-        onChange={handleChange}
-        className="border px-2 py-1"
-      />
+    <div className="flex justify-between gap-4">
+      <div className="py-4 flex items-center gap-4">
+        <div>Filter by</div>
+        <input
+          type="text"
+          placeholder="Name & Manufacturer"
+          onChange={handleChange}
+          className="border px-2 py-1"
+        />
+      </div>
     </div>
   );
 }

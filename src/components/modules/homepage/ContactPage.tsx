@@ -38,9 +38,9 @@ const Contact = ({
   className,
 }: Contact7Props) => {
   return (
-    <section className={cn("bg-background py-32  w-full px-4", className)}>
-      <div className="container mx-auto ">
-        <div className="mb-14">
+    <section className={cn("bg-background py-4  w-full px-4", className)}>
+      <div className="container mx-auto  ">
+        <div className="mb-8 text-center">
           <h1 className="mt-2 mb-3 text-3xl font-semibold text-balance md:text-4xl">
             {title}
           </h1>

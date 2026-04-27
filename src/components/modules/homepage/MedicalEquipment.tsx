@@ -1,10 +1,9 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-
 import { Button } from "@/components/ui/button";
 import type { CarouselApi } from "@/components/ui/carousel";
 import {
@@ -13,166 +12,166 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 
-interface GalleryItem {
+interface EquipmentItem {
   id: string;
   title: string;
   summary: string;
-  url: string;
   image: string;
+  url?: string;
 }
 
-interface Gallery6Props {
+interface MedicalEquipmentProps {
   heading?: string;
-  demoUrl?: string;
-  items?: GalleryItem[];
+  description?: string;
+  items?: EquipmentItem[];
   className?: string;
 }
 
-const MedicalEquipment = ({
-  heading = "We Have Medical Equipment.",
+const defaultItems: EquipmentItem[] = [
+  {
+    id: "1",
+    title: "Digital X-Ray Machine",
+    summary:
+      "High-resolution imaging system for fast and accurate diagnostics.",
+    image:
+      "https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=1200",
+  },
+  {
+    id: "2",
+    title: "Patient Monitor",
+    summary:
+      "Real-time monitoring of ECG, oxygen level, pulse, and blood pressure.",
+    image:
+      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1200",
+  },
+  {
+    id: "3",
+    title: "Wheelchair",
+    summary:
+      "Comfortable and durable mobility support for patients and seniors.",
+    image:
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200",
+  },
+  {
+    id: "4",
+    title: "Surgical Equipment",
+    summary:
+      "Premium-grade tools designed for precision and safety in surgery.",
+    image:
+      "https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1200",
+  },
+  {
+    id: "5",
+    title: "Nebulizer Machine",
+    summary:
+      "Efficient respiratory treatment device for asthma and breathing care.",
+    image:
+      "https://images.unsplash.com/photo-1603398938378-e54eab446dde?q=80&w=1200",
+  },
+];
 
-  items = [
-    {
-      id: "item-1",
-      title: "Build Modern UIs",
-      summary:
-        "Create stunning user interfaces with our comprehensive design system.",
-      url: "#",
-      image:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-2",
-      title: "Computer Vision Technology",
-      summary:
-        "Powerful image recognition and processing capabilities that allow AI systems to analyze, understand, and interpret visual information from the world.",
-      url: "#",
-      image:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-3",
-      title: "Machine Learning Automation",
-      summary:
-        "Self-improving algorithms that learn from data patterns to automate complex tasks and make intelligent decisions with minimal human intervention.",
-      url: "#",
-      image:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-4",
-      title: "Predictive Analytics",
-      summary:
-        "Advanced forecasting capabilities that analyze historical data to predict future trends and outcomes, helping businesses make data-driven decisions.",
-      url: "#",
-      image:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-5",
-      title: "Neural Network Architecture",
-      summary:
-        "Sophisticated AI models inspired by human brain structure, capable of solving complex problems through deep learning and pattern recognition.",
-      url: "#",
-      image:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
-    },
-  ],
+export function MedicalEquipment({
+  heading = "Advanced Medical Equipment",
+  description = "Reliable modern healthcare devices for hospitals, clinics, and home care.",
+  items = defaultItems,
   className,
-}: Gallery6Props) => {
-  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
+}: MedicalEquipmentProps) {
+  const [api, setApi] = useState<CarouselApi>();
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+
   useEffect(() => {
-    if (!carouselApi) {
-      return;
-    }
-    const updateSelection = () => {
-      setCanScrollPrev(carouselApi.canScrollPrev());
-      setCanScrollNext(carouselApi.canScrollNext());
+    if (!api) return;
+
+    const update = () => {
+      setCanPrev(api.canScrollPrev());
+      setCanNext(api.canScrollNext());
     };
-    updateSelection();
-    carouselApi.on("select", updateSelection);
+
+    update();
+    api.on("select", update);
+
     return () => {
-      carouselApi.off("select", updateSelection);
+      api.off("select", update);
     };
-  }, [carouselApi]);
+  }, [api]);
+
   return (
-    <section className={cn("py-10 px-4  max-w-7xl ", className)}>
-      <div className="container mx-auto">
-        <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16 px-2">
-          <div className="flex items-center">
-            <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6 text-center">
+    <section
+      className={cn("py-4 w-full max-w-full overflow-hidden", className)}
+    >
+      <div className="w-full max-w-7xl mx-auto px-4 overflow-hidden">
+        {/* Header */}
+        <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl text-center">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-primary">
+              Healthcare Solutions
+            </p>
+
+            <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
               {heading}
             </h2>
+
+            <p className="mt-4 text-sm text-muted-foreground md:text-base">
+              {description}
+            </p>
           </div>
-          <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
+
+          {/* Navigation Buttons */}
+          <div className="flex items-center gap-3">
             <Button
-              size="icon"
               variant="outline"
-              onClick={() => {
-                carouselApi?.scrollPrev();
-              }}
-              disabled={!canScrollPrev}
-              className="disabled:pointer-events-auto"
+              size="icon"
+              disabled={!canPrev}
+              onClick={() => api?.scrollPrev()}
             >
-              <ArrowLeft className="size-5" />
+              <ArrowLeft className="h-5 w-5" />
             </Button>
+
             <Button
-              size="icon"
               variant="outline"
-              onClick={() => {
-                carouselApi?.scrollNext();
-              }}
-              disabled={!canScrollNext}
-              className="disabled:pointer-events-auto"
+              size="icon"
+              disabled={!canNext}
+              onClick={() => api?.scrollNext()}
             >
-              <ArrowRight className="size-5" />
+              <ArrowRight className="h-5 w-5" />
             </Button>
           </div>
         </div>
-      </div>
-      <div className="mx-auto px-4 border-red-700">
-        <Carousel
-          setApi={setCarouselApi}
-          opts={{
-            breakpoints: {
-              "(max-width: 768px)": {
-                dragFree: true,
-              },
-            },
-          }}
-          className="relative w-full max-w-full md:left-[-1rem]"
-        >
-          <CarouselContent className="hide-scrollbar w-full max-w-full md:-mr-4 md:ml-8 2xl:mr-[max(0rem,calc(50vw-700px-1rem))] 2xl:ml-[max(8rem,calc(50vw-700px+1rem))]">
+
+        {/* Carousel */}
+        <Carousel setApi={setApi} className="w-full overflow-hidden">
+          <CarouselContent className="ml-0">
             {items.map((item) => (
-              <CarouselItem key={item.id} className="ml-8 md:max-w-[452px]">
+              <CarouselItem
+                key={item.id}
+                className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 px-2"
+              >
                 <a
-                  href={item.url}
-                  className="group flex flex-col justify-between"
+                  href={item.url || "#"}
+                  className="group block h-full rounded-2xl border bg-background shadow-sm transition-all duration-300 hover:shadow-xl"
                 >
-                  <div>
-                    <div className="flex aspect-3/2 overflow-clip rounded-xl">
-                      <div className="flex-1">
-                        <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-                          <img
-                            src={item.image}
-                            alt={item.title}
-                            className="h-full w-full object-cover object-center"
-                          />
-                        </div>
-                      </div>
+                  {/* Image */}
+                  <div className="overflow-hidden rounded-t-2xl">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="h-56 w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold">{item.title}</h3>
+
+                    <p className="mt-3 line-clamp-3 text-sm text-muted-foreground">
+                      {item.summary}
+                    </p>
+
+                    <div className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-primary">
+                      Learn More
+                      <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-1 group-hover:-translate-y-1" />
                     </div>
-                  </div>
-                  <div className="mb-2 line-clamp-3 pt-4 text-lg font-medium break-words md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
-                    {item.title}
-                  </div>
-                  <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-                    {item.summary}
-                  </div>
-                  <div className="flex items-center text-sm">
-                    Read more{" "}
-                    <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
                   </div>
                 </a>
               </CarouselItem>
@@ -182,6 +181,4 @@ const MedicalEquipment = ({
       </div>
     </section>
   );
-};
-
-export { MedicalEquipment };
+}

@@ -21,6 +21,7 @@ import Link from "next/link";
 import z from "zod";
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 const formSchema = z.object({
   name: z.string().min(1, "This field is required."),
   email: z.email(),
@@ -28,11 +29,13 @@ const formSchema = z.object({
 });
 
 export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
+  const router = useRouter();
   const handleGoogleLogin = async () => {
     const data = authClient.signIn.social({
       provider: "google",
       callbackURL: "http://localhost:3000",
     });
+    router.push("/");
   };
 
   const form = useForm({
@@ -45,7 +48,6 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log("Register button clicked", value);
       const toastId = toast.loading("Creating user");
 
       try {
@@ -56,6 +58,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
           return;
         }
         toast.success("User created successfully..", { id: toastId });
+        router.push("/");
       } catch (error) {
         toast.error("Something went wrong, please try aging later ..", {
           id: toastId,
