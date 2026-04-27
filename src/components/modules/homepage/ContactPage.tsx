@@ -44,9 +44,7 @@ const Contact = ({
           <h1 className="mt-2 mb-3 text-3xl font-semibold text-balance md:text-4xl">
             {title}
           </h1>
-          <p className="max-w-xl text-lg text-muted-foreground">
-            {description}
-          </p>
+          <p className="text-lg  text-muted-foreground">{description}</p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           <div className="rounded-lg bg-muted p-6">

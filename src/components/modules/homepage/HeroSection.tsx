@@ -74,7 +74,7 @@ const HeroSection = ({
 }: Hero3Props) => {
   return (
     <section className={cn("py-4 px-4", className)}>
-      <div className="container grid items-center gap-10 lg:grid-cols-2 lg:gap-20 ">
+      <div className="container grid items-center gap-10 lg:grid-cols-2 ">
         <div className="mx-auto flex flex-col items-center text-center md:ml-auto lg:max-w-3xl lg:items-start lg:text-left">
           <h1 className="my-6 text-4xl font-bold text-pretty lg:text-6xl xl:text-7xl">
             {heading}
@@ -123,14 +123,15 @@ const HeroSection = ({
             )}
           </div>
         </div>
-        <div className="flex">
+
+        <div className=" flex items-center justify-center">
           <Image
             src="https://res.cloudinary.com/dngogzccp/image/upload/v1777030616/medicineBanner_vyrrag.jpg"
             priority
-            height={600}
-            width={600}
+            height={800}
+            width={800}
             alt="Medicine Banner"
-            // className="max-h-[600px] w-full rounded-md object-cover lg:max-h-[800px]"
+            className="max-h-[600px] w-full rounded-md object-cover"
           />
         </div>
       </div>

@@ -11,6 +11,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import Image from "next/image";
 
 interface EquipmentItem {
   id: string;
@@ -103,8 +104,8 @@ export function MedicalEquipment({
       <div className="w-full max-w-7xl mx-auto px-4 overflow-hidden">
         {/* Header */}
         <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-primary">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="mb-2 text-xl font-semibold uppercase tracking-widest text-primary">
               Healthcare Solutions
             </p>
 
@@ -153,9 +154,11 @@ export function MedicalEquipment({
                 >
                   {/* Image */}
                   <div className="overflow-hidden rounded-t-2xl">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
+                      width={500}
+                      height={500}
                       className="h-56 w-full object-cover transition duration-500 group-hover:scale-105"
                     />
                   </div>
