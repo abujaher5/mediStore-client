@@ -29,6 +29,7 @@ import {
 import Link from "next/link";
 import { ThemeChanger } from "./ThemeChanger";
 import { authClient } from "@/lib/auth-client";
+import CartIcon from "../modules/homepage/CartIcon";
 
 interface MenuItem {
   title: string;
@@ -119,7 +120,10 @@ const Navbar = ({
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-3">
+            <div className="flex items-center">
+              <CartIcon />
+            </div>
             <div>
               <ThemeChanger />
             </div>
