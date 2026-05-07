@@ -1,4 +1,4 @@
-import { Profile } from "@/components/modules/dashboard/shared/Profile";
+import { Profile } from "@/components/modules/dashboard/shared/Profile/Profile";
 
 const CustomerDashboard = () => {
   return (

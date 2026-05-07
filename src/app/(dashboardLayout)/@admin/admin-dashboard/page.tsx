@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { userService } from "@/services/user.service";
-import { Profile } from "../../../../components/modules/dashboard/shared/Profile";
+import { Profile } from "../../../../components/modules/dashboard/shared/Profile/Profile";
 
 const AdminDashboard = async () => {
   const { data } = await userService.getSession();

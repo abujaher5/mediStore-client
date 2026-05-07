@@ -7,9 +7,8 @@ export const Profile = async () => {
   const user = data?.user;
   return (
     <div>
-      <h2>Admin dashboard..</h2>
-
       <div className="w-1/2 lg:w-1/3 mx-auto">
+        <h2 className="text-3xl py-4 text-center uppercase"> Your Profile</h2>
         <Card>
           <CardHeader>
             <CardTitle>My Profile</CardTitle>
@@ -34,9 +33,12 @@ export const Profile = async () => {
               <p className="font-medium">{user.phone}</p>
             </div>
 
-            <div>
-              <p className="text-sm text-muted-foreground">Role</p>
-              <p className="font-medium">{user.role}</p>
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="text-sm text-muted-foreground">Role</p>
+                <p className="font-medium">{user.role}</p>
+              </div>
+              <div>{/* <Profile /> */}</div>
             </div>
           </CardContent>
         </Card>

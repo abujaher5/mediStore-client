@@ -30,6 +30,7 @@ import Link from "next/link";
 import { ThemeChanger } from "./ThemeChanger";
 import { authClient } from "@/lib/auth-client";
 import CartIcon from "../modules/homepage/CartIcon";
+import { useCartStore } from "@/store/cartStore";
 
 interface MenuItem {
   title: string;
@@ -99,6 +100,9 @@ const Navbar = ({
     await authClient.signOut();
     window.location.reload();
   };
+
+  const cart = useCartStore((state) => state.cart);
+  const totalItem = cart.reduce((sum, item) => sum + item.quantity, 0);
   return (
     <section className={cn("py-4", className)}>
       <div className="container mx-auto">
@@ -122,7 +126,7 @@ const Navbar = ({
           </div>
           <div className="flex gap-3">
             <div className="flex items-center">
-              <CartIcon />
+              <CartIcon item={totalItem} />
             </div>
             <div>
               <ThemeChanger />

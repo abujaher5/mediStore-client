@@ -1,6 +1,7 @@
 "use client";
 
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface CartItem {
   id: string;
@@ -12,38 +13,39 @@ interface CartItem {
 
 interface CartStore {
   cart: CartItem[];
-
-  addToCart: (medicine: Omit<CartItem, "quantity">) => void;
+  addToCart: (item: Omit<CartItem, "quantity">) => void;
   removeFromCart: (id: string) => void;
 }
 
-export const useCartStore = create<CartStore>((set) => ({
-  cart: [],
+export const useCartStore = create<CartStore>()(
+  persist(
+    (set) => ({
+      cart: [],
 
-  addToCart: (medicine) =>
-    set((state) => {
-      const exist = state.cart.find((item) => item.id === medicine.id);
+      addToCart: (item) =>
+        set((state) => {
+          const existing = state.cart.find((p) => p.id === item.id);
 
-      if (exist) {
-        return {
-          cart: state.cart.map((item) =>
-            item.id === medicine.id
-              ? {
-                  ...item,
-                  quantity: item.quantity + 1,
-                }
-              : item,
-          ),
-        };
-      }
+          if (existing) {
+            return {
+              cart: state.cart.map((p) =>
+                p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p,
+              ),
+            };
+          }
 
-      return {
-        cart: [...state.cart, { ...medicine, quantity: 1 }],
-      };
+          return {
+            cart: [...state.cart, { ...item, quantity: 1 }],
+          };
+        }),
+
+      removeFromCart: (id) =>
+        set((state) => ({
+          cart: state.cart.filter((item) => item.id !== id),
+        })),
     }),
-
-  removeFromCart: (id) =>
-    set((state) => ({
-      cart: state.cart.filter((item) => item.id !== id),
-    })),
-}));
+    {
+      name: "cart-storage",
+    },
+  ),
+);

@@ -16,6 +16,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { medicineService } from "@/services/medicine.service";
 import UpdateUserModal from "./UpdateUserModal";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function UsersClient({ users }: { users: User[] }) {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -29,11 +30,13 @@ export default function UsersClient({ users }: { users: User[] }) {
   const router = useRouter();
   const handleUpdateStatus = async (id: string, status: string) => {
     await medicineService.updateUserStatus(id, status);
+    toast.success("Status update successfully");
     router.refresh();
   };
 
   const handleDelete = async (id: string) => {
     await medicineService.deleteUser(id);
+    toast.success("User deleted successfully.");
     router.refresh();
   };
 

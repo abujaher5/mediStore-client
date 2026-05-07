@@ -18,14 +18,12 @@ interface MedicineDetailsProps {
 
 const MedicineDetails = ({ medicine }: MedicineDetailsProps) => {
   const addToCart = useCartStore((state) => state.addToCart);
-  const cart = useCartStore((state) => state.cart);
   return (
     <div>
       <Card
         key={medicine.id}
         className="grid grid-rows-[auto_auto_1fr_auto] overflow-hidden pt-2"
       >
-        <p>Total{cart.length}</p>
         <div className="flex items-center justify-center">
           <Image
             src={medicine.imageUrl}
@@ -67,13 +65,13 @@ const MedicineDetails = ({ medicine }: MedicineDetailsProps) => {
               addToCart({
                 id: medicine.id,
                 name: medicine.name,
-                price: Number(medicine.price),
+                price: medicine.price,
                 image: medicine.imageUrl,
               })
             }
-            className=" text-center uppercase text-foreground w-1/2
+            className=" text-center uppercase w-1/2 bg-green-400 text-black
                   border-2 px-2 py-1 rounded-lg 
-                  hover:text-white hover:bg-gray-400"
+                  hover:text-white hover:bg-green-700"
           >
             Add To Cart
           </Button>
