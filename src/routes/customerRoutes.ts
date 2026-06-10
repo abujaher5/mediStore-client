@@ -5,7 +5,7 @@ export const customerRoutes = [
       { title: "My Orders", url: "/my-orders" },
       {
         title: "My Cart",
-        url: "/customer-dashboard/my-cart",
+        url: "/cart",
       },
       {
         title: "Track Order Status",
