@@ -15,11 +15,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import UpdateCategoryModal from "./UpdateCategoryModal";
 import { useState } from "react";
+import { Categories } from "@/types";
 
-interface Categories {
-  name: string;
-  id: string;
-}
 export const CategoryTable = ({ categories }: { categories: Categories[] }) => {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<Categories | null>(

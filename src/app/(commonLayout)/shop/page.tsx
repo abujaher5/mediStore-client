@@ -13,8 +13,13 @@ const ShopPage = async ({ searchParams }: Props) => {
   const data = await medicineService.getAllMedicines({ search });
 
   return (
-    <div className="container mx-auto flex flex-col items-center gap-10 lg:px-10">
+    <div className="container mx-auto flex flex-col items-center gap-5 lg:px-10">
       <SearchInput />
+
+      <div className="flex justify-end items-end  lg:ml-180 md:ml-130  text-center bg-gray-500 p-1.5 rounded-sm">
+        Show All Categories
+      </div>
+
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
         {data?.map((medicine: Medicine) => (
           <MedicineCard key={medicine.id} medicine={medicine} />

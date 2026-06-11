@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,15 +17,8 @@ export default function UpdateUserModal({
 }: any) {
   const [status, setStatus] = useState(user?.status);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     setStatus(user.status);
-  //   }
-  // }, [user]);
-
   const handleUpdate = async () => {
     await onSubmit(user.id, status);
-    console.log("Update button clicked", status);
     onOpenChange(false);
   };
 
