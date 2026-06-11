@@ -11,13 +11,17 @@ import {
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const AddCategoriesForm = ({
   className,
   ...props
 }: React.ComponentProps<"div">) => {
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -46,8 +50,9 @@ const AddCategoriesForm = ({
         throw new Error(data.message || "Failed");
       }
 
-      alert("Categories added successfully.");
+      toast.success("Categories added successfully.");
       form.reset();
+      router.push("/admin-dashboard/manage-categories");
     } catch (error) {
       console.error(error);
       alert("Failed to add categories..");
