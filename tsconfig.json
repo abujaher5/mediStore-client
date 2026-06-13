@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "src/app/(dashboardLayout)/@seller/seller-dashboard/manage-stock"
   ],
   "exclude": ["node_modules"]
 }

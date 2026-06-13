@@ -2,6 +2,7 @@ import { MedicineCard } from "@/components/modules/shop/MedicineCard";
 import SearchInput from "@/components/modules/shop/SearchInput";
 import { medicineService } from "@/services/medicine.service";
 import { Medicine } from "@/types";
+import Link from "next/link";
 
 type Props = {
   searchParams: Promise<{ search?: string }>;
@@ -16,8 +17,8 @@ const ShopPage = async ({ searchParams }: Props) => {
     <div className="container mx-auto flex flex-col items-center gap-5 lg:px-10">
       <SearchInput />
 
-      <div className="flex justify-end items-end  lg:ml-180 md:ml-130  text-center bg-gray-500 p-1.5 rounded-sm">
-        Show All Categories
+      <div className="flex justify-end items-end  lg:ml-180 md:ml-130  text-center bg-gray-400 p-1.5 rounded-sm dark:hover:bg-gray-600 hover:bg-transparent">
+        <Link href={"/categories"}>Show All Categories</Link>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">

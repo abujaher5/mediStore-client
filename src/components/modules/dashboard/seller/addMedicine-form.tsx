@@ -13,12 +13,16 @@ import {
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export function AddMedicineForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +43,7 @@ export function AddMedicineForm({
     };
 
     try {
-      const res = await fetch("http://localhost:5000/api/medicines", {
+      const res = await fetch("http://localhost:5000/api/seller/medicines", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,11 +58,13 @@ export function AddMedicineForm({
         throw new Error(data.message || "Failed");
       }
 
-      alert("Medicine added successfully ✅");
+      toast.success("Medicine added successfully");
       form.reset();
+
+      router.push("/seller-dashboard/my-medicines");
     } catch (error) {
       console.error(error);
-      alert("Failed to add medicine");
+      toast.warning("Failed to add medicine");
     } finally {
       setLoading(false);
     }

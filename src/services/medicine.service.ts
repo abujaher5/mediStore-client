@@ -101,4 +101,17 @@ export const medicineService = {
     });
     return res.json();
   },
+
+  updateStock: async (id: string, stock: number) => {
+    const res = await fetch(`${API_URL}/seller/medicines/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ stock }),
+    });
+
+    return res.json();
+  },
 };
