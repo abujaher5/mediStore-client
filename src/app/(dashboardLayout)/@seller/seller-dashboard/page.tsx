@@ -1,9 +1,19 @@
 import { Profile } from "@/components/modules/dashboard/shared/Profile/Profile";
 
-const SellerDashboard = () => {
+import SellerDashboardStats from "@/components/modules/dashboard/seller/SellerStats";
+import { sellerService } from "@/services/seller.service";
+
+const SellerDashboard = async () => {
+  const { data } = await sellerService.getDashboardStats();
+  console.log(data);
+
   return (
     <div>
-      <h2>Seller Dashboard For Management.</h2>
+      <h2 className="text-3xl font-semibold text-center  mb-5">
+        Your Dashboard.
+      </h2>
+
+      <SellerDashboardStats stats={data} />
       <Profile />
     </div>
   );

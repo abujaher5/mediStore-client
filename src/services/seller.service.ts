@@ -32,4 +32,16 @@ export const sellerService = {
 
   //   return res.json();
   // },
+
+  getDashboardStats: async () => {
+    const cookieStore = await cookies();
+
+    const res = await fetch(`${API_URL}/seller/medicines/dashboard-stats`, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
+
+    return await res.json();
+  },
 };
