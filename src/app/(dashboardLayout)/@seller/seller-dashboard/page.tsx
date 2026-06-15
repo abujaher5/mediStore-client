@@ -5,7 +5,6 @@ import { sellerService } from "@/services/seller.service";
 
 const SellerDashboard = async () => {
   const { data } = await sellerService.getDashboardStats();
-  console.log(data);
 
   return (
     <div>

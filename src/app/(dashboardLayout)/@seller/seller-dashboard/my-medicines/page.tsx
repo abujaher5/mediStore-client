@@ -1,5 +1,5 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+
 import {
   Table,
   TableBody,
@@ -11,11 +11,10 @@ import {
 } from "@/components/ui/table";
 import { sellerService } from "@/services/seller.service";
 import { Medicine } from "@/types";
-import { Pencil, Trash2 } from "lucide-react";
 
 const MyMedicinesPage = async () => {
   const { data: medicines } = await sellerService.myMedicines();
-  console.log("My medicines", medicines);
+  // console.log("My medicines", medicines);
   return (
     <div>
       <Table>
@@ -43,18 +42,6 @@ const MyMedicinesPage = async () => {
               <TableCell>{medicine.name}</TableCell>
               <TableCell>{medicine.price}</TableCell>
               <TableCell>{medicine.stock}</TableCell>
-
-              {/* <TableCell>
-                <Button variant="outline" size="sm">
-                  <Pencil className="w-4 h-4" />
-                </Button>
-              </TableCell>
-
-              <TableCell>
-                <Button variant="destructive" size="sm">
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>
