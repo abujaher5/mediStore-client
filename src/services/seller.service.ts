@@ -44,4 +44,20 @@ export const sellerService = {
 
     return await res.json();
   },
+
+  getMyOrders: async function () {
+    const cookieStore = await cookies();
+    try {
+      const res = await fetch("http://localhost:5000/api/orders/my-orders", {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+      });
+      const data = await res.json();
+      return { data: data, error: null };
+    } catch (error) {
+      console.error(error);
+      return { data: null, error: { message: "Something Went Wrong.." } };
+    }
+  },
 };

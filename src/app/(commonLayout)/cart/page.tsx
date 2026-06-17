@@ -2,11 +2,14 @@
 
 import { useCartStore } from "@/store/cartStore";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const { cart, removeFromCart } = useCartStore();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const router = useRouter();
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -85,7 +88,10 @@ export default function CartPage() {
               <span>৳ {total}</span>
             </div>
 
-            <button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
+            <button
+              onClick={() => router.push("/checkout")}
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition"
+            >
               Checkout
             </button>
           </div>

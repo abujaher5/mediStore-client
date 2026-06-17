@@ -2,7 +2,7 @@ export const customerRoutes = [
   {
     title: "Customer Dashboard",
     items: [
-      { title: "My Orders", url: "/my-orders" },
+      { title: "My Orders", url: "/customer-dashboard/my-orders" },
       {
         title: "My Cart",
         url: "/cart",

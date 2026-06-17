@@ -29,7 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="">
+        <div className="min-h-[calc(100vh-572.51px)] ">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
