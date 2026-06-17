@@ -32,18 +32,30 @@ export default function UpdateMedicineModal({ medicine }: Props) {
     manufacturer: medicine.manufacturer,
   });
 
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const { name, value } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]:
+      name === "price" || name === "stock"
+        ? Number(value)
+        : value,
+  }));
+};
 
   const handleUpdate = async () => {
     const res = await fetch(
-      `http://localhost:5000/api/seller/medicines/${medicine.id}`,
+      `http://localhost:5000/api/seller/medicines/updateMedicine/${medicine.id}`,
       {
-        method: "PUT",
+        method: "PATCH",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",

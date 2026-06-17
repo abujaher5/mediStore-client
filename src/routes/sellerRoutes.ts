@@ -21,11 +21,11 @@ export const sellerRoutes = [
       },
       {
         title: "Update Order Status",
-        url: "/seller-dashboard/update-order-status",
+        url: "/seller-dashboard/manage-orders",
       },
       {
         title: "View Orders",
-        url: "/seller-dashboard/orders",
+        url: "/seller-dashboard/view-orders",
       },
 
       {

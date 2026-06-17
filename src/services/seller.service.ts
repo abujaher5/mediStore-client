@@ -60,4 +60,16 @@ export const sellerService = {
       return { data: null, error: { message: "Something Went Wrong.." } };
     }
   },
+
+  getOrderedMedicines: async () => {
+    const cookieStore = await cookies();
+
+    const res = await fetch(`${API_URL}/seller/orders`, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
+
+    return res.json();
+  },
 };
