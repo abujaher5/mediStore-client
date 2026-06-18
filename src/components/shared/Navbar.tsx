@@ -31,6 +31,7 @@ import { ThemeChanger } from "./ThemeChanger";
 import { authClient } from "@/lib/auth-client";
 import CartIcon from "../modules/homepage/CartIcon";
 import { useCartStore } from "@/store/cartStore";
+import Image from "next/image";
 
 interface MenuItem {
   title: string;
@@ -65,7 +66,7 @@ interface Navbar1Props {
 const Navbar = ({
   logo = {
     url: "/",
-    src: "logo.png",
+    src: "/logo.png",
     alt: "logo",
     title: "MediStore",
   },
@@ -96,6 +97,9 @@ const Navbar = ({
   className,
 }: Navbar1Props) => {
   const { data: session, isPending } = authClient.useSession();
+
+  const user = session?.user as { role?: string } | undefined;
+
   const handleLogout = async () => {
     await authClient.signOut();
     window.location.reload();
@@ -103,6 +107,10 @@ const Navbar = ({
 
   const cart = useCartStore((state) => state.cart);
   const totalItem = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  if (isPending) {
+    return <div className="h-8 w-20 animate-pulse bg-muted rounded" />;
+  }
   return (
     <section className={cn("py-4", className)}>
       <div className="container mx-auto">
@@ -112,7 +120,13 @@ const Navbar = ({
             {/* Logo */}
             <div className="">
               <Link href={logo.url} className="flex items-center ">
-                <img src={logo.src} className="h-16 w-16" alt={logo.alt} />
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={64}
+                  height={64}
+                  className="h-16 w-16"
+                />
               </Link>
             </div>
 
@@ -126,7 +140,9 @@ const Navbar = ({
           </div>
           <div className="flex gap-3">
             <div className="flex items-center">
-              <CartIcon item={totalItem} />
+              {(!user || user?.role === "CUSTOMER") && (
+                <CartIcon item={totalItem} />
+              )}
             </div>
             <div>
               <ThemeChanger />
@@ -140,9 +156,6 @@ const Navbar = ({
                 <Link href={auth.login.url}>{auth.login.title}</Link>
               </Button>
             )}
-            {/* <Button asChild size="sm">
-              <a href={auth.signup.url}>{auth.signup.title}</a>
-            </Button> */}
           </div>
         </nav>
 
@@ -150,54 +163,71 @@ const Navbar = ({
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
+
             <a href={logo.url} className="flex items-center gap-2">
-              <img
+              <Image
                 src={logo.src}
-                className="max-h-8 dark:invert"
                 alt={logo.alt}
+                width={32}
+                height={32}
+                className="max-h-8"
               />
             </a>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="size-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="overflow-y-auto">
-                <SheetHeader>
-                  <SheetTitle>
-                    <a href={logo.url} className="flex items-center gap-2">
-                      <img
-                        src={logo.src}
-                        className="max-h-8 dark:invert"
-                        alt={logo.alt}
-                      />
-                    </a>
-                  </SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-6 p-4">
-                  <Accordion
-                    type="single"
-                    collapsible
-                    className="flex w-full flex-col gap-4"
-                  >
-                    {menu.map((item) => renderMobileMenuItem(item))}
-                  </Accordion>
 
-                  <div className="flex flex-col gap-3">
-                    {session?.user ? (
-                      <Button variant="outline" onClick={handleLogout}>
-                        Logout
-                      </Button>
-                    ) : (
-                      <Button asChild variant="outline">
-                        <Link href={auth.login.url}>{auth.login.title}</Link>
-                      </Button>
-                    )}
+            <div className="flex items-center gap-4">
+              <div className="flex items-center">
+                {(!user || user?.role === "CUSTOMER") && (
+                  <CartIcon item={totalItem} />
+                )}
+              </div>
+              <div>
+                <ThemeChanger />
+              </div>
+
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Menu className="size-4" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>
+                      <a href={logo.url} className="flex items-center gap-2">
+                        <Image
+                          src={logo.src}
+                          width={32}
+                          height={32}
+                          className="max-h-8 "
+                          alt={logo.alt}
+                        />
+                      </a>
+                    </SheetTitle>
+                  </SheetHeader>
+                  <div className="flex flex-col gap-6 p-4">
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="flex w-full flex-col gap-4"
+                    >
+                      {menu.map((item) => renderMobileMenuItem(item))}
+                    </Accordion>
+
+                    <div className="flex flex-col gap-3">
+                      {session?.user ? (
+                        <Button variant="outline" onClick={handleLogout}>
+                          Logout
+                        </Button>
+                      ) : (
+                        <Button asChild variant="outline">
+                          <Link href={auth.login.url}>{auth.login.title}</Link>
+                        </Button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </SheetContent>
-            </Sheet>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>

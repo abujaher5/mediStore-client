@@ -7,7 +7,6 @@ import AdminDashboardStats from "@/components/modules/dashboard/admin/AdminStats
 
 const AdminDashboard = async () => {
   const data = await adminService.getDashboardStats();
-  console.log(data);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
