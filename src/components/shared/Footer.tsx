@@ -29,7 +29,7 @@ interface Footer2Props {
 
 const Footer = ({
   logo = {
-    src: "logo.png",
+    src: "/logo.png",
     alt: "logo",
     title: "MediStore",
     url: "/",
@@ -44,17 +44,13 @@ const Footer = ({
         { text: "Pricing", url: "#" },
         { text: "Marketplace", url: "#" },
         { text: "Features", url: "#" },
-        { text: "Integrations", url: "#" },
-        { text: "Pricing", url: "#" },
       ],
     },
     {
       title: "Company",
       links: [
         { text: "About", url: "#" },
-        { text: "Team", url: "#" },
         { text: "Blog", url: "#" },
-        { text: "Careers", url: "#" },
         { text: "Contact", url: "#" },
         { text: "Privacy", url: "#" },
       ],
@@ -76,7 +72,7 @@ const Footer = ({
       ],
     },
   ],
-  copyright = "© 2024 MediStore.com. All rights reserved.",
+  copyright = `© ${new Date().getFullYear()} MediStore.com. All rights reserved.`,
   bottomLinks = [
     { text: "Terms and Conditions", url: "#" },
     { text: "Privacy Policy", url: "#" },
@@ -94,12 +90,12 @@ const Footer = ({
                     src={logo.src}
                     alt={logo.alt}
                     title={logo.title}
-                    className="h-16 dark:invert"
+                    className="h-12 w-12 rounded-full object-cover"
                   />
                   <LogoText className="text-xl">{logo.title}</LogoText>
                 </Logo>
               </div>
-              <p className="mt-4 font-bold text-center md:text-start lg:text-start">
+              <p className="mt-4 font-semibold text-center md:text-start lg:text-start">
                 {tagline}
               </p>
             </div>
@@ -120,9 +116,9 @@ const Footer = ({
             ))}
           </div>
 
-          <div className="mt-24 flex flex-col justify-between gap-4 border-t pt-8 text-sm font-medium text-muted-foreground md:flex-row md:items-center">
-            <p>{copyright}</p>
-            <ul className="flex gap-4">
+          <div className="mt-4 flex flex-col justify-between gap-4 border-t pt-8 text-sm font-medium text-muted-foreground md:flex-row md:items-center">
+            <p className="text-center">{copyright}</p>
+            <ul className="flex justify-center md:justify-end gap-4">
               {bottomLinks.map((link, linkIdx) => (
                 <li key={linkIdx} className="underline hover:text-primary">
                   <a href={link.url}>{link.text}</a>

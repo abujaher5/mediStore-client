@@ -1,81 +1,97 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+
+import { authClient } from "@/lib/auth-client";
 import { useCartStore } from "@/store/cartStore";
 
 import { Medicine } from "@/types";
 import Image from "next/image";
+import { toast } from "sonner";
 
 interface MedicineDetailsProps {
   medicine: Medicine;
 }
 
 const MedicineDetails = ({ medicine }: MedicineDetailsProps) => {
+  const { data: session } = authClient.useSession();
+  const user = session?.user as { role?: string } | undefined;
   const addToCart = useCartStore((state) => state.addToCart);
+
   return (
     <div>
       <Card
         key={medicine.id}
-        className="grid grid-rows-[auto_auto_1fr_auto] overflow-hidden pt-2"
+        className="group relative overflow-hidden rounded-2xl border-0 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white"
       >
-        <div className="flex items-center justify-center">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-teal-400 via-emerald-500 to-teal-600" />
+
+        <div className="relative bg-linear-to-b from-teal-50 to-emerald-50 flex items-center justify-center p-6 h-52 overflow-hidden">
+          <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-teal-100/60" />
+          <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-emerald-100/60" />
+
           <Image
             src={medicine.imageUrl}
             priority
             width={400}
             height={400}
             alt={medicine.name}
-            className=" object-cover rounded-md w-full md:w-1/2 lg:w-1/2 h-full  "
+            className="relative z-10 object-cover w-46 h-46 drop-shadow-md group-hover:scale-125 transition-transform duration-300"
           />
         </div>
 
-        <CardHeader>
-          <div className="flex justify-between">
-            <h3 className="text-lg font-semibold  md:text-xl">
+        <div className="p-5 grid gap-3">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 leading-tight">
               {medicine.name}
             </h3>
-            <h4>{medicine.manufacturer}</h4>
+            <p className="text-xs font-medium text-teal-600 uppercase tracking-widest mt-0.5">
+              {medicine.manufacturer}
+            </p>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div>
-            <p className="text-muted-foreground">{medicine.description}</p>
-            <div className="flex justify-between mt-2 px-2 pt-2">
-              <p className="text-lg  font-semibold text-green-500  md:text-xl">
-                Stock : {medicine.stock}
-              </p>
-              <p className="text-lg  font-semibold   md:text-xl">
-                Price :
-                <span className="text-lg  font-semibold text-yellow-500  md:text-xl pl-2">
-                  {medicine.price}
-                </span>
-              </p>
-            </div>
+
+          <div className="h-px bg-linear-to-r from-teal-100 via-emerald-200 to-transparent" />
+
+          <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
+            {medicine.description}
+          </p>
+          <p className="text-md text-gray-500 leading-relaxed line-clamp-2">
+            Category :
+            <span className="text-teal-600 font-semibold ml-2">
+              {medicine.category.name}
+            </span>
+          </p>
+
+          {/* Stock + Price badges */}
+          <div className="flex items-center gap-2 mt-1">
+            <span className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold px-3 py-1.5 rounded-full">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" />
+              Stock: {medicine.stock}
+            </span>
+            <span className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-700 text-sm font-bold px-3 py-1.5 rounded-full ml-auto">
+              ৳ {medicine.price}
+            </span>
           </div>
-        </CardContent>
-        <CardFooter className=" flex justify-center items-center">
+
           <Button
-            onClick={() =>
+            className="w-full mt-1 bg-linear-to-r from-teal-500 to-emerald-600 hover:from-teal-400 hover:to-emerald-500 text-white font-semibold rounded-xl py-5 shadow-md hover:shadow-lg transition-all duration-200 border-0"
+            onClick={() => {
+              if (user && user.role !== "CUSTOMER") {
+                return toast.error("Only customers can add medicines to cart");
+              }
+
               addToCart({
                 id: medicine.id,
                 name: medicine.name,
                 price: medicine.price,
                 image: medicine.imageUrl,
-              })
-            }
-            className=" text-center uppercase w-1/2 bg-green-400 text-black
-                  border-2 px-2 py-1 rounded-lg 
-                  hover:text-white hover:bg-green-700"
+              });
+            }}
           >
             Add To Cart
           </Button>
-        </CardFooter>
+        </div>
       </Card>
     </div>
   );

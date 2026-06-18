@@ -1,6 +1,8 @@
 import { MedicineCard } from "@/components/modules/shop/MedicineCard";
 import SearchInput from "@/components/modules/shop/SearchInput";
+
 import { medicineService } from "@/services/medicine.service";
+
 import { Medicine } from "@/types";
 import Link from "next/link";
 
