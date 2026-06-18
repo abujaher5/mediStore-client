@@ -20,12 +20,12 @@ export const sellerRoutes = [
         url: "/seller-dashboard/manage-stock",
       },
       {
-        title: "Update Order Status",
-        url: "/seller-dashboard/manage-orders",
-      },
-      {
         title: "View Orders",
         url: "/seller-dashboard/view-orders",
+      },
+      {
+        title: "Manage Orders",
+        url: "/seller-dashboard/manage-orders",
       },
 
       {

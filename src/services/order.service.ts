@@ -16,6 +16,20 @@ export const orderService = {
     }
   },
 
+  getAllOrders: async function () {
+    try {
+      const res = await fetch("http://localhost:5000/api/orders", {
+        credentials: "include",
+      });
+      const data = await res.json();
+
+      return { data };
+    } catch (error) {
+      console.error(error);
+      return { data: null, error: { message: "Something Went Wrong.." } };
+    }
+  },
+
   updateOrderStatus: async (orderId: string, status: string) => {
     const res = await fetch(`${API_URL}/seller/orders/${orderId}`, {
       method: "PATCH",

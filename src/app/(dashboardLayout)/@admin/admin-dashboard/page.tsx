@@ -1,48 +1,43 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { userService } from "@/services/user.service";
 import { Profile } from "../../../../components/modules/dashboard/shared/Profile/Profile";
+import { LayoutDashboard } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+
+import { adminService } from "@/services/admin.service";
+import AdminDashboardStats from "@/components/modules/dashboard/admin/AdminStats";
 
 const AdminDashboard = async () => {
-  const { data } = await userService.getSession();
-  const user = data?.user;
+  const data = await adminService.getDashboardStats();
+  console.log(data);
+
   return (
-    <div>
-      <h2>Admin dashboard..</h2>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+      <div className="flex items-center gap-3">
+        <span className="p-2 rounded-lg bg-primary/10">
+          <LayoutDashboard className="h-5 w-5 text-primary" />
+        </span>
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Admin Dashboard</h2>
+          <p className="text-sm text-muted-foreground">
+            Here&apos;s what&apos;s happening with my store .
+          </p>
+        </div>
+      </div>
 
-      {/* <div className="w-1/2 lg:w-1/3 mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle>My Profile</CardTitle>
-          </CardHeader>
+      <Separator />
 
-          <CardContent className="space-y-4">
-            <div className="flex items-center gap-4">
-              <Avatar>
-                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-              </Avatar>
+      <section>
+        <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
+          Overview
+        </h3>
+        <AdminDashboardStats stats={data} />
+      </section>
 
-              <div>
-                <p className="font-medium">{user.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  Email: {user.email}
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p className="text-sm text-muted-foreground">Phone</p>
-              <p className="font-medium">{user.phone}</p>
-            </div>
-
-            <div>
-              <p className="text-sm text-muted-foreground">Role</p>
-              <p className="font-medium">{user.role}</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div> */}
-      <Profile />
+      <section>
+        <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
+          Account
+        </h3>
+        <Profile />
+      </section>
     </div>
   );
 };

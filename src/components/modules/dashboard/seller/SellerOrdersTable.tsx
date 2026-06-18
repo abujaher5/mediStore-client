@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 
 import { Badge } from "@/components/ui/badge";
+import { getOrderStatusColor } from "@/lib/orderStatus";
 
 interface OrderItem {
   id: string;
@@ -95,7 +96,9 @@ export default function SellerOrdersTable({ orders }: { orders: Order[] }) {
               <TableCell>৳ {item.subtotal}</TableCell>
 
               <TableCell>
-                <Badge>{order.status}</Badge>
+                <Badge className={getOrderStatusColor(order.status)}>
+                  {order.status}
+                </Badge>
               </TableCell>
             </TableRow>
           )),

@@ -26,7 +26,7 @@ interface Order {
   items: OrderItem[];
 }
 
-export default function MyOrdersList({ orders }: { orders: Order[] }) {
+export default function AllOrdersList({ orders }: { orders: Order[] }) {
   console.log(orders);
   if (!orders?.length) {
     return (
@@ -40,9 +40,7 @@ export default function MyOrdersList({ orders }: { orders: Order[] }) {
         <Card key={order.id}>
           <CardHeader className="flex flex-row justify-between items-center">
             <div>
-              <CardTitle className="text-lg">
-                Order #{order.id.slice(0, 8)}
-              </CardTitle>
+              <CardTitle className="text-lg">Order id : {order.id}</CardTitle>
 
               <p className="text-sm text-muted-foreground">
                 {new Date(order.createdAt).toLocaleString()}
@@ -87,7 +85,12 @@ export default function MyOrdersList({ orders }: { orders: Order[] }) {
               ))}
 
               <div className="flex justify-between pt-3 font-semibold">
-                <span>Total</span>
+                <span>
+                  Total{" "}
+                  <span className="font-light text-sm">
+                    (including delivery charge)
+                  </span>{" "}
+                </span>
                 <span>৳ {order.totalAmount}</span>
               </div>
             </div>

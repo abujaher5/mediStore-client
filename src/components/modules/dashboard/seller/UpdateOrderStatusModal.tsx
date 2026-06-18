@@ -62,7 +62,9 @@ export default function UpdateOrderStatusModal({ order }: { order: Order }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">Update Status</Button>
+        <Button size="sm" className=" hover:bg-green-500">
+          Update Status
+        </Button>
       </DialogTrigger>
 
       <DialogContent>
