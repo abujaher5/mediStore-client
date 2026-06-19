@@ -2,12 +2,13 @@
 "use client";
 
 import { useCartStore } from "@/store/cartStore";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ShieldCheck, Truck, PackageCheck } from "lucide-react";
+import { useCurrentUser } from "@/hooks/get-logged-user";
 
 type FormData = {
   name: string;
@@ -20,6 +21,16 @@ type FormData = {
 };
 
 export default function CheckoutPage() {
+  const { user } = useCurrentUser();
+
+  if (!user) {
+    redirect("login");
+  }
+
+  if (user.role !== "CUSTOMER") {
+    redirect("/");
+  }
+
   const { cart, clearCart } = useCartStore();
   const router = useRouter();
   const [loading, setLoading] = useState(false);

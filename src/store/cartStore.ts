@@ -67,6 +67,8 @@ interface CartItem {
 interface CartStore {
   cart: CartItem[];
   addToCart: (item: Omit<CartItem, "quantity">) => void;
+  increaseQuantity: (id: string) => void;
+  decreaseQuantity: (id: string) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -95,6 +97,21 @@ export const useCartStore = create<CartStore>()(
         toast.success("Removed from cart") &&
         set((state) => ({
           cart: state.cart.filter((item) => item.id !== id),
+        })),
+
+      increaseQuantity: (id) =>
+        set((state) => ({
+          cart: state.cart.map((item) =>
+            item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+          ),
+        })),
+      decreaseQuantity: (id) =>
+        set((state) => ({
+          cart: state.cart
+            .map((item) =>
+              item.id === id ? { ...item, quantity: item.quantity - 1 } : item,
+            )
+            .filter((item) => item.quantity > 0),
         })),
 
       updateQuantity: (id, quantity) =>

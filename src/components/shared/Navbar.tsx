@@ -32,6 +32,8 @@ import { authClient } from "@/lib/auth-client";
 import CartIcon from "../modules/homepage/CartIcon";
 import { useCartStore } from "@/store/cartStore";
 import Image from "next/image";
+import { useCurrentUser } from "@/hooks/get-logged-user";
+import { useRouter } from "next/navigation";
 
 interface MenuItem {
   title: string;
@@ -96,21 +98,18 @@ const Navbar = ({
   },
   className,
 }: Navbar1Props) => {
-  const { data: session, isPending } = authClient.useSession();
+  const { user } = useCurrentUser();
 
-  const user = session?.user as { role?: string } | undefined;
+  const router = useRouter();
 
   const handleLogout = async () => {
     await authClient.signOut();
-    window.location.reload();
+    router.refresh();
   };
 
   const cart = useCartStore((state) => state.cart);
   const totalItem = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  if (isPending) {
-    return <div className="h-8 w-20 animate-pulse bg-muted rounded" />;
-  }
   return (
     <section className={cn("py-4", className)}>
       <div className="container mx-auto">
@@ -147,7 +146,7 @@ const Navbar = ({
             <div>
               <ThemeChanger />
             </div>
-            {session?.user ? (
+            {user ? (
               <Button variant="outline" size="sm" onClick={handleLogout}>
                 Logout
               </Button>
@@ -214,7 +213,7 @@ const Navbar = ({
                     </Accordion>
 
                     <div className="flex flex-col gap-3">
-                      {session?.user ? (
+                      {user ? (
                         <Button variant="outline" onClick={handleLogout}>
                           Logout
                         </Button>

@@ -1,15 +1,34 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { useCurrentUser } from "@/hooks/get-logged-user";
 import { useCartStore } from "@/store/cartStore";
+import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function CartPage() {
-  const { cart, removeFromCart } = useCartStore();
+  const router = useRouter();
+  const { user, isPending } = useCurrentUser();
+
+  useEffect(() => {
+    if (isPending) return;
+
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
+    if (user.role !== "CUSTOMER") {
+      router.push("/");
+    }
+  }, [user, isPending, router]);
+  const { cart, removeFromCart, increaseQuantity, decreaseQuantity } =
+    useCartStore();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-  const router = useRouter();
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -45,16 +64,24 @@ export default function CartPage() {
                   <p className="text-gray-500">Price: ৳ {item.price}</p>
 
                   <p className="text-sm mt-1">
-                    Quantity:{" "}
+                    Quantity:
                     <span className="font-medium">{item.quantity}</span>
                   </p>
                 </div>
 
                 {/* Actions */}
                 <div className="flex flex-col items-end gap-2">
-                  <p className="font-bold text-lg">
-                    ৳ {item.price * item.quantity}
-                  </p>
+                  <div className="flex items-center gap-2 mt-2 border rounded-md w-fit px-2 py-1">
+                    <button onClick={() => decreaseQuantity(item.id)}>
+                      <Minus size={16} />
+                    </button>
+
+                    <span className="w-6 text-center">{item.quantity}</span>
+
+                    <button onClick={() => increaseQuantity(item.id)}>
+                      <Plus size={16} />
+                    </button>
+                  </div>
 
                   <button
                     onClick={() => removeFromCart(item.id)}
@@ -88,12 +115,22 @@ export default function CartPage() {
               <span>৳ {total}</span>
             </div>
 
-            <button
-              onClick={() => router.push("/checkout")}
+            <Button
+              onClick={() => {
+                if (!user) {
+                  return router.push("/login?redirect=/cart");
+                }
+
+                if (user.role !== "CUSTOMER") {
+                  return toast.warning("Only customers can place orders");
+                }
+
+                router.push("/checkout");
+              }}
               className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition"
             >
               Checkout
-            </button>
+            </Button>
           </div>
         </div>
       )}

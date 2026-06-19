@@ -22,7 +22,7 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import z from "zod";
 import { useForm } from "@tanstack/react-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 const formSchema = z.object({
   email: z.email(),
   password: z.string().min(8, "Minimum length is 8. "),
@@ -33,12 +33,14 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
+
+  const searchParams = useSearchParams();
   const handleGoogleLogin = async () => {
+    const redirect = searchParams.get("redirect") || "/";
     const data = authClient.signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000",
+      callbackURL: `http://localhost:3000${redirect}`,
     });
-    router.push("/");
   };
   const form = useForm({
     defaultValues: {
@@ -49,9 +51,6 @@ export function LoginForm({
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
-      console.log("Submit button clicked..!");
-
       const toastId = toast.loading("Logging in user.");
 
       try {
@@ -62,7 +61,8 @@ export function LoginForm({
           return;
         }
         toast.success("User logged in successfully.", { id: toastId });
-        router.push("/");
+        const redirect = searchParams.get("redirect") || "/";
+        router.push(redirect);
       } catch (error) {
         toast.error("Something went wrong, please try aging later ..", {
           id: toastId,
@@ -70,8 +70,6 @@ export function LoginForm({
       }
     },
   });
-
-  const session = authClient.useSession();
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

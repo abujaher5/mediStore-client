@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,7 @@ import Link from "next/link";
 import z from "zod";
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 const formSchema = z.object({
   name: z.string().min(1, "This field is required."),
   email: z.email(),
@@ -30,12 +31,13 @@ const formSchema = z.object({
 
 export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const handleGoogleLogin = async () => {
+    const redirect = searchParams.get("redirect") || "/";
     const data = authClient.signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000",
+      callbackURL: `http://localhost:3000${redirect}`,
     });
-    router.push("/");
   };
 
   const form = useForm({
@@ -58,7 +60,9 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
           return;
         }
         toast.success("User created successfully..", { id: toastId });
-        router.push("/");
+
+        const redirect = searchParams.get("redirect") || "/";
+        router.push(redirect);
       } catch (error) {
         toast.error("Something went wrong, please try aging later ..", {
           id: toastId,
