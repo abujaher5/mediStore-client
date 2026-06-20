@@ -7,18 +7,14 @@ export const customerRoutes = [
         title: "My Cart",
         url: "/cart",
       },
-      {
-        title: "Track Order Status",
-        url: "/customer-dashboard/track-order-status",
-      },
 
       {
         title: "Manage Profile",
         url: "/customer-dashboard/manage-profile",
       },
       {
-        title: "Leave Review",
-        url: "/customer-dashboard/leave-review",
+        title: "Add Review",
+        url: "/customer-dashboard/add-review",
       },
 
       {
