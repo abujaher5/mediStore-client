@@ -2,7 +2,7 @@ import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-interface Contact7Props {
+interface Contact {
   title?: string;
   description?: string;
   emailLabel?: string;
@@ -22,21 +22,21 @@ interface Contact7Props {
 
 const Contact = ({
   title = "Contact Us",
-  description = "Contact the support team at Shadcnblocks.",
+  description = "Contact the support team at MediStore.",
   emailLabel = "Email",
   emailDescription = "We respond to all emails within 24 hours.",
-  email = "example@shadcnblocks.com",
+  email = "medistore@gmail.com",
   officeLabel = "Office",
   officeDescription = "Drop by our office for a chat.",
-  officeAddress = "1 Eagle St, Brisbane, QLD, 4000",
+  officeAddress = "Halishahar , Chattogram.",
   phoneLabel = "Phone",
   phoneDescription = "We're available Mon-Fri, 9am-5pm.",
-  phone = "+123 456 7890",
+  phone = "+880180000000",
   chatLabel = "Live Chat",
   chatDescription = "Get instant help from our support team.",
   chatLink = "Start Chat",
   className,
-}: Contact7Props) => {
+}: Contact) => {
   return (
     <section className={cn("bg-background py-4  w-full px-4", className)}>
       <div className="container mx-auto  ">

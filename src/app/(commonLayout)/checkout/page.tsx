@@ -7,7 +7,13 @@ import { useState } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck, Truck, PackageCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  ShieldCheck,
+  Truck,
+  PackageCheck,
+  Loader2,
+} from "lucide-react";
 import { useCurrentUser } from "@/hooks/get-logged-user";
 
 type FormData = {
@@ -58,6 +64,70 @@ export default function CheckoutPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // const handleCheckout = async () => {
+  //   if (!form.name || !form.phone || !form.address || !form.city) {
+  //     toast.error("Please fill in all required fields");
+  //     return;
+  //   }
+  //   if (cart.length === 0) {
+  //     toast.error("Your cart is empty");
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   try {
+  //     const orderPayload = {
+  //       customer: {
+  //         name: form.name,
+  //         phone: form.phone,
+  //         email: form.email || undefined,
+  //         address: form.address,
+  //         city: form.city,
+  //         notes: form.notes || undefined,
+  //       },
+
+  //       items: cart.map((item) => ({
+  //         medicineId: item.id,
+  //         name: item.name,
+  //         price: item.price,
+  //         quantity: item.quantity,
+  //       })),
+  //       paymentMethod: form.paymentMethod,
+  //       subtotal,
+  //       deliveryFee,
+  //       totalAmount,
+  //     };
+
+  //     const res = await fetch("http://localhost:5000/api/orders", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //       body: JSON.stringify(orderPayload),
+  //       credentials: "include",
+  //     });
+
+  //     if (!res.ok) {
+  //       const err = await res.json();
+  //       throw new Error(err.message || "Order failed");
+  //     }
+
+  //     const data = await res.json();
+
+  //     clearCart();
+  //     toast.success("Order placed successfully!");
+
+  //     router.push(`/checkout/success?orderId=${data.data.orderId}`);
+  //   } catch (error: any) {
+  //     toast.error(error.message || "Something went wrong. Please try again.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  // No Stripe imports needed on checkout page
+
   const handleCheckout = async () => {
     if (!form.name || !form.phone || !form.address || !form.city) {
       toast.error("Please fill in all required fields");
@@ -70,36 +140,32 @@ export default function CheckoutPage() {
 
     setLoading(true);
     try {
-      const orderPayload = {
-        customer: {
-          name: form.name,
-          phone: form.phone,
-          email: form.email || undefined,
-          address: form.address,
-          city: form.city,
-          notes: form.notes || undefined,
-        },
-
-        items: cart.map((item) => ({
-          medicineId: item.id,
-          name: item.name,
-          price: item.price,
-          quantity: item.quantity,
-        })),
-        paymentMethod: form.paymentMethod,
-        subtotal,
-        deliveryFee,
-        totalAmount,
-      };
-
       const res = await fetch("http://localhost:5000/api/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(orderPayload),
+        body: JSON.stringify({
+          customer: {
+            name: form.name,
+            phone: form.phone,
+            email: form.email || undefined,
+            address: form.address,
+            city: form.city,
+            notes: form.notes || undefined,
+          },
+          items: cart.map((item) => ({
+            medicineId: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+          })),
+          paymentMethod: form.paymentMethod,
+          subtotal,
+          deliveryFee,
+          totalAmount,
+        }),
         credentials: "include",
       });
 
@@ -110,10 +176,20 @@ export default function CheckoutPage() {
 
       const data = await res.json();
 
-      clearCart();
-      toast.success("Order placed successfully!");
+      // CASE 1 → COD
+      if (data.data.type === "COD") {
+        clearCart();
+        toast.success("Order placed successfully!");
+        router.push(`/checkout/success?orderId=${data.data.orderId}`);
+        return;
+      }
 
-      router.push(`/checkout/success?orderId=${data.data.orderId}`);
+      // CASE 2 → ONLINE — redirect to Stripe hosted page
+      if (data.data.type === "ONLINE" && data.data.paymentUrl) {
+        clearCart(); // clear cart before leaving
+        window.location.href = data.data.paymentUrl; // ✅ redirect to Stripe
+        return;
+      }
     } catch (error: any) {
       toast.error(error.message || "Something went wrong. Please try again.");
     } finally {
@@ -362,12 +438,31 @@ export default function CheckoutPage() {
               </span>
             </div>
 
-            <button
+            {/* <button
               onClick={handleCheckout}
               disabled={loading}
               className="w-full bg-green-600 hover:bg-green-700 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-xl py-3.5 transition-all mt-2"
             >
               {loading ? "Placing Order..." : "Place Order →"}
+            </button> */}
+
+            <button
+              onClick={handleCheckout}
+              disabled={loading}
+              className="w-full bg-green-600 hover:bg-green-700 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-xl py-3.5 transition-all mt-2 flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={15} className="animate-spin" />
+                  {form.paymentMethod === "ONLINE"
+                    ? "Redirecting to Stripe..."
+                    : "Placing Order..."}
+                </>
+              ) : form.paymentMethod === "ONLINE" ? (
+                "Pay with Stripe →"
+              ) : (
+                "Place Order →"
+              )}
             </button>
 
             <div className="space-y-2 pt-2 border-t border-gray-100">

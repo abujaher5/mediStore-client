@@ -72,24 +72,15 @@ const Navbar = ({
     alt: "logo",
     title: "MediStore",
   },
-  menu = [
+  baseMenu = [
     { title: "Home", url: "/" },
     {
       title: "Shop",
       url: "/shop",
     },
-
     {
       title: "Cart",
       url: "/cart",
-    },
-    {
-      title: "Orders",
-      url: "/orders",
-    },
-    {
-      title: "Dashboard",
-      url: "/customer-dashboard",
     },
   ],
   auth = {
@@ -99,6 +90,16 @@ const Navbar = ({
   className,
 }: Navbar1Props) => {
   const { user } = useCurrentUser();
+
+  const menu = user
+    ? [
+        ...baseMenu,
+        {
+          title: "Dashboard",
+          url: "/customer-dashboard",
+        },
+      ]
+    : baseMenu;
 
   const router = useRouter();
 
