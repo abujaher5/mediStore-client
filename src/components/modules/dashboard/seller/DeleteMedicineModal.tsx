@@ -16,6 +16,7 @@ import {
 
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { env } from "@/env";
 
 interface Props {
   medicineId: string;
@@ -23,17 +24,15 @@ interface Props {
 
 export default function DeleteMedicineModal({ medicineId }: Props) {
   const [loading, setLoading] = useState(false);
+  const API_URL = env.NEXT_PUBLIC_API_URL;
 
   const handleDelete = async () => {
     setLoading(true);
 
-    const res = await fetch(
-      `http://localhost:5000/api/seller/medicines/${medicineId}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      },
-    );
+    const res = await fetch(`${API_URL}/api/seller/medicines/${medicineId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
 
     if (res.ok) {
       toast.success("Deleted successfully");

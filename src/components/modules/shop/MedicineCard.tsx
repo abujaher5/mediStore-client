@@ -4,7 +4,6 @@ import { Medicine } from "@/types";
 import Link from "next/link";
 
 const MedicineCard = async ({ medicine }: { medicine: Medicine }) => {
-  console.log(medicine);
   return (
     <div>
       <Card

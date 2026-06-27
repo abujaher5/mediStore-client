@@ -1,7 +1,12 @@
 export const sellerRoutes = [
   {
     title: "Seller Dashboard",
+
     items: [
+      {
+        title: "Dashboard Stats",
+        url: "/seller-dashboard",
+      },
       {
         title: "Add Medicine",
         url: "/seller-dashboard/add-medicine",

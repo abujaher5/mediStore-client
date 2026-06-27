@@ -8,7 +8,7 @@ import Link from "next/link";
 import { env } from "@/env";
 
 export default function PaymentSuccessPage() {
-  const API_URL = env.API_URL;
+  const API_URL = env.NEXT_PUBLIC_API_URL;
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
 
@@ -25,7 +25,7 @@ export default function PaymentSuccessPage() {
 
     const verify = async () => {
       try {
-        const res = await fetch(`${API_URL}/orders/verify-payment`, {
+        const res = await fetch(`${API_URL}/api/orders/verify-payment`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ sessionId }),

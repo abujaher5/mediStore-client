@@ -53,6 +53,7 @@ interface Navbar1Props {
     className?: string;
   };
   menu?: MenuItem[];
+  baseMenu?: MenuItem[];
   auth?: {
     login: {
       title: string;
@@ -103,9 +104,20 @@ const Navbar = ({
 
   const router = useRouter();
 
+  // const handleLogout = async () => {
+  //   await authClient.signOut();
+  //   router.refresh();
+  // };
+
   const handleLogout = async () => {
-    await authClient.signOut();
-    router.refresh();
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login");
+          router.refresh();
+        },
+      },
+    });
   };
 
   const cart = useCartStore((state) => state.cart);

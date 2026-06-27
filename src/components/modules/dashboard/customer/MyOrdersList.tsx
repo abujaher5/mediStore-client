@@ -27,7 +27,6 @@ interface Order {
 }
 
 export default function MyOrdersList({ orders }: { orders: Order[] }) {
-  console.log(orders);
   if (!orders?.length) {
     return (
       <div className="text-center mt-10 text-gray-500">No orders found</div>

@@ -2,6 +2,7 @@ export const adminRoutes = [
   {
     title: "Admin Dashboard",
     items: [
+      { title: "Dashboard Stats", url: "/admin-dashboard" },
       { title: "Manage Users", url: "/admin-dashboard/all-users" },
       { title: "Add Categories", url: "/admin-dashboard/add-categories" },
       { title: "Manage Categories", url: "/admin-dashboard/manage-categories" },

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { env } from "@/env";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,6 +22,7 @@ const AddCategoriesForm = ({
 }: React.ComponentProps<"div">) => {
   const [loading, setLoading] = useState(false);
 
+  const API_URL = env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +37,7 @@ const AddCategoriesForm = ({
     };
 
     try {
-      const res = await fetch("http://localhost:5000/api/admin/categories", {
+      const res = await fetch(`${API_URL}/api/admin/categories`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

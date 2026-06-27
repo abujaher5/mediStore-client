@@ -16,12 +16,14 @@ import {
 import { Pencil } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { env } from "@/env";
 
 interface Props {
   medicine: Medicine;
 }
 
 export default function UpdateMedicineModal({ medicine }: Props) {
+  const API_URL = env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -40,20 +42,17 @@ export default function UpdateMedicineModal({ medicine }: Props) {
   // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const { name, value } = e.target;
+    const { name, value } = e.target;
 
-  setFormData((prev) => ({
-    ...prev,
-    [name]:
-      name === "price" || name === "stock"
-        ? Number(value)
-        : value,
-  }));
-};
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "price" || name === "stock" ? Number(value) : value,
+    }));
+  };
 
   const handleUpdate = async () => {
     const res = await fetch(
-      `http://localhost:5000/api/seller/medicines/updateMedicine/${medicine.id}`,
+      `${API_URL}/api/seller/medicines/updateMedicine/${medicine.id}`,
       {
         method: "PATCH",
         credentials: "include",
@@ -63,7 +62,6 @@ export default function UpdateMedicineModal({ medicine }: Props) {
         body: JSON.stringify(formData),
       },
     );
-    console.log(formData);
 
     const data = await res.json();
 

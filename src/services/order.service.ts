@@ -1,11 +1,11 @@
 import { env } from "@/env";
 
-const API_URL = env.NEXT_PUBLIC_URL;
+const API_URL = env.NEXT_PUBLIC_API_URL;
 
 export const orderService = {
   getMyOrders: async function () {
     try {
-      const res = await fetch("http://localhost:5000/api/orders/my-orders", {
+      const res = await fetch(`${API_URL}/api/orders/my-orders`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -18,7 +18,7 @@ export const orderService = {
 
   getAllOrders: async function () {
     try {
-      const res = await fetch("http://localhost:5000/api/orders", {
+      const res = await fetch(`${API_URL}/api/orders`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -31,7 +31,7 @@ export const orderService = {
   },
 
   updateOrderStatus: async (orderId: string, status: string) => {
-    const res = await fetch(`${API_URL}/seller/orders/${orderId}`, {
+    const res = await fetch(`${API_URL}/api/seller/orders/${orderId}`, {
       method: "PATCH",
       credentials: "include",
 

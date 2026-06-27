@@ -14,7 +14,7 @@ import { Medicine } from "@/types";
 
 const MyMedicinesPage = async () => {
   const { data: medicines } = await sellerService.myMedicines();
-  // console.log("My medicines", medicines);
+
   return (
     <div>
       <Table>

@@ -3,7 +3,6 @@ import { sellerService } from "@/services/seller.service";
 
 const MyOrdersPage = async () => {
   const { data: orders } = await sellerService.getMyOrders();
-  console.log(orders.data, "from page");
 
   return (
     <div className="p-6">

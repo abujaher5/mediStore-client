@@ -1,11 +1,12 @@
 import { env } from "@/env";
 
-const API_URL = env.NEXT_PUBLIC_URL;
+const API_URL = env.NEXT_PUBLIC_API_URL;
 
 export const categoryService = {
   getAllCategories: async function () {
     try {
-      const res = await fetch(`${API_URL}/admin/categories`);
+      const res = await fetch(`${API_URL}/api/admin/categories`);
+
       const data = await res.json();
 
       return { data: data, error: null };
@@ -16,7 +17,7 @@ export const categoryService = {
   },
 
   updateCategory: async (id: string, name: string) => {
-    const res = await fetch(`${API_URL}/admin/categories/${id}`, {
+    const res = await fetch(`${API_URL}/api/admin/categories/${id}`, {
       method: "PATCH",
       credentials: "include",
       headers: {
@@ -29,7 +30,7 @@ export const categoryService = {
   },
 
   deleteCategory: async (id: string) => {
-    const res = await fetch(`${API_URL}/admin/categories/${id}`, {
+    const res = await fetch(`${API_URL}/api/admin/categories/${id}`, {
       method: "DELETE",
       credentials: "include",
     });

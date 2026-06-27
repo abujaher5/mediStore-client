@@ -1,7 +1,7 @@
 import { env } from "@/env";
 import { cookies } from "next/headers";
 
-const API_URL = env.NEXT_PUBLIC_URL;
+const API_URL = env.API_URL;
 export const sellerService = {
   myMedicines: async function () {
     try {
@@ -20,19 +20,6 @@ export const sellerService = {
     }
   },
 
-  // updateStock: async (id: string, stock: number) => {
-  //   const res = await fetch(`${API_URL}/seller/medicines/${id}`, {
-  //     method: "PATCH",
-  //     credentials: "include",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ stock }),
-  //   });
-
-  //   return res.json();
-  // },
-
   getDashboardStats: async () => {
     const cookieStore = await cookies();
 
@@ -48,7 +35,7 @@ export const sellerService = {
   getMyOrders: async function () {
     const cookieStore = await cookies();
     try {
-      const res = await fetch("http://localhost:5000/api/orders/my-orders", {
+      const res = await fetch(`${API_URL}/orders/my-orders`, {
         headers: {
           Cookie: cookieStore.toString(),
         },

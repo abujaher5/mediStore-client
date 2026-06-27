@@ -12,7 +12,7 @@ interface SellerStatsProps {
   stats: {
     totalMedicines: number;
     totalStock: number;
-    lowStockMedicines: number;
+    lowStock: number;
     totalOrders: number;
     totalRevenue: number;
   };
@@ -39,7 +39,7 @@ const statCards = (stats: SellerStatsProps["stats"]) => [
   },
   {
     label: "Low Stock",
-    value: stats?.lowStockMedicines,
+    value: stats?.lowStock,
     icon: AlertTriangle,
     accent: "text-rose-500",
     bg: "bg-rose-500/10",

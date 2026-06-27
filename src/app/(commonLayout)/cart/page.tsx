@@ -10,14 +10,15 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 export default function CartPage() {
-  const router = useRouter();
   const { user, isPending } = useCurrentUser();
+  console.log(user);
+  const router = useRouter();
 
   useEffect(() => {
     if (isPending) return;
 
     if (!user) {
-      router.push("/login");
+      router.replace("/login");
       return;
     }
 
@@ -25,6 +26,13 @@ export default function CartPage() {
       router.push("/");
     }
   }, [user, isPending, router]);
+
+  // if (isPending) {
+  //   return <div>Loading...</div>;
+  // }
+  // if (!user) {
+  //   return null;
+  // }
   const { cart, removeFromCart, increaseQuantity, decreaseQuantity } =
     useCartStore();
 

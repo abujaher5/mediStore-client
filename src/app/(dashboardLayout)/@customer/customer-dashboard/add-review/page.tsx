@@ -52,8 +52,6 @@ export default function AddReview() {
       console.log(error);
     }
 
-    toast.success("Review submitted successfully");
-
     setFormData({
       quote: "",
       designation: "",

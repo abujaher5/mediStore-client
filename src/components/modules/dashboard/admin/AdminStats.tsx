@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+
 import { Pill, ShoppingCart, User } from "lucide-react";
 
 interface AdminStatsProps {
@@ -56,7 +56,6 @@ const statCards = (stats: AdminStatsProps["stats"]) => [
 ];
 
 export default function AdminDashboardStats({ stats }: AdminStatsProps) {
-  console.log(stats);
   const cards = statCards(stats);
 
   return (

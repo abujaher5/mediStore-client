@@ -2,7 +2,7 @@ import { env } from "@/env";
 import { cookies } from "next/headers";
 
 const AUTH_URL = process.env.AUTH_URL;
-const API_URL = env.API_URL;
+const API_URL = env.NEXT_PUBLIC_API_URL;
 
 export const userService = {
   getSession: async function () {
@@ -29,7 +29,13 @@ export const userService = {
 
   getAllUsers: async function () {
     try {
-      const res = await fetch(`${API_URL}/admin/users`);
+      const cookieStore = await cookies();
+      const res = await fetch(`${API_URL}/api/admin/users`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+      });
+
       const data = await res.json();
 
       return { data: data, error: null };
@@ -40,14 +46,14 @@ export const userService = {
   },
 
   updateUserStatus: async (id: string) => {
-    const res = await fetch(`${API_URL}/admin/users/${id}/status`, {
+    const res = await fetch(`${API_URL}/api/admin/users/${id}/status`, {
       method: "PATCH",
       credentials: "include",
     });
     return res.json();
   },
   deleteUser: async (id: string) => {
-    const res = await fetch(`${API_URL}/admin/users/${id}`, {
+    const res = await fetch(`${API_URL}/api/admin/users/${id}`, {
       method: "DELETE",
       credentials: "include",
     });

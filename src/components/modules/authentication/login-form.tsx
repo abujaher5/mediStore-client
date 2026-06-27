@@ -37,7 +37,7 @@ export function LoginForm({
   const searchParams = useSearchParams();
   const handleGoogleLogin = async () => {
     const redirect = searchParams.get("redirect") || "/";
-    const data = authClient.signIn.social({
+    const data = await authClient.signIn.social({
       provider: "google",
       callbackURL: `http://localhost:3000${redirect}`,
     });

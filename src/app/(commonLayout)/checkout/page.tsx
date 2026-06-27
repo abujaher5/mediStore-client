@@ -2,7 +2,7 @@
 "use client";
 
 import { useCartStore } from "@/store/cartStore";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
@@ -15,6 +15,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useCurrentUser } from "@/hooks/get-logged-user";
+import { env } from "@/env";
 
 type FormData = {
   name: string;
@@ -26,16 +27,18 @@ type FormData = {
   paymentMethod: "COD" | "ONLINE";
 };
 
+const API_URL = env.NEXT_PUBLIC_API_URL;
+
 export default function CheckoutPage() {
-  const { user } = useCurrentUser();
+  // const { user } = useCurrentUser();
 
-  if (!user) {
-    redirect("login");
-  }
+  // // if (!user) {
+  // //   redirect("/login");
+  // // }
 
-  if (user.role !== "CUSTOMER") {
-    redirect("/");
-  }
+  // if (user.role !== "CUSTOMER") {
+  //   redirect("/");
+  // }
 
   const { cart, clearCart } = useCartStore();
   const router = useRouter();
@@ -98,7 +101,7 @@ export default function CheckoutPage() {
   //       totalAmount,
   //     };
 
-  //     const res = await fetch("http://localhost:5000/api/orders", {
+  //     const res = await fetch("${API_URL}/api/api/orders", {
   //       method: "POST",
   //       headers: {
   //         "Content-Type": "application/json",
@@ -140,7 +143,7 @@ export default function CheckoutPage() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/orders", {
+      const res = await fetch(`${API_URL}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

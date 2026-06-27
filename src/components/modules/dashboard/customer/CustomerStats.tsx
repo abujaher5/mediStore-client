@@ -85,7 +85,6 @@ const statCards = (stats: CustomerStatsProps["stats"]) => [
 
 export default function CustomerDashboardStats({ stats }: CustomerStatsProps) {
   const cards = statCards(stats);
-  console.log(stats);
 
   return (
     <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
