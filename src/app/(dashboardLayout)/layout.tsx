@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/layout/app-sidebar";
+export const dynamic = "force-dynamic";
 
 import {
   SidebarInset,
@@ -22,8 +23,9 @@ export default async function DashboardLayout({
   // };
 
   const { data } = await userService.getSession();
+  console.log("data11", data);
 
-  const userInfo = data.user;
+  const userInfo = data?.user;
 
   return (
     <SidebarProvider>
@@ -35,9 +37,9 @@ export default async function DashboardLayout({
         <div className="flex flex-1 flex-col gap-4 p-4">
           {/* {userInfo.role === "admin" ? admin : seller} */}
 
-          {userInfo.role === Roles.admin
+          {userInfo?.role === Roles.admin
             ? admin
-            : userInfo.role === Roles.seller
+            : userInfo?.role === Roles.seller
               ? seller
               : customer}
         </div>

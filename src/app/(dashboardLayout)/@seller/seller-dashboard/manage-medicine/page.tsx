@@ -36,7 +36,7 @@ const ManageMedicinePage = async () => {
         </TableHeader>
 
         <TableBody>
-          {medicines.map((medicine: Medicine) => (
+          {medicines?.map((medicine: Medicine) => (
             <TableRow key={medicine.id}>
               <TableCell>
                 <Avatar>

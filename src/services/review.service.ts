@@ -4,7 +4,7 @@ const API_URL = env.NEXT_PUBLIC_API_URL;
 
 export const reviewService = {
   createReview: async (payload: { quote: string; designation: string }) => {
-    const res = await fetch(`${API_URL}/api/reviews/create-review`, {
+    const res = await fetch(`/api/reviews/create-review`, {
       method: "POST",
       credentials: "include",
       headers: {

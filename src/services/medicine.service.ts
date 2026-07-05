@@ -84,7 +84,7 @@ export const medicineService = {
   },
 
   updateUserStatus: async (id: string, status: string) => {
-    const res = await fetch(`${API_URL}/api/admin/users/${id}`, {
+    const res = await fetch(`/api/admin/users/${id}`, {
       method: "PATCH",
       credentials: "include",
       headers: {
@@ -95,7 +95,7 @@ export const medicineService = {
     return res.json();
   },
   deleteUser: async (id: string) => {
-    const res = await fetch(`${API_URL}/api/admin/users/${id}`, {
+    const res = await fetch(`/api/admin/users/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -103,7 +103,7 @@ export const medicineService = {
   },
 
   updateStock: async (id: string, stock: number) => {
-    const res = await fetch(`${API_URL}/api/seller/medicines/${id}`, {
+    const res = await fetch(`/api/seller/medicines/${id}`, {
       method: "PATCH",
       credentials: "include",
       headers: {

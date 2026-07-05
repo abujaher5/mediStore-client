@@ -34,12 +34,15 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const router = useRouter();
 
+  // const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_APP_URL;
+
   const searchParams = useSearchParams();
   const handleGoogleLogin = async () => {
-    const redirect = searchParams.get("redirect") || "/";
-    const data = await authClient.signIn.social({
+    // const redirect = searchParams.get("redirect") || "/";
+    return await authClient.signIn.social({
       provider: "google",
-      callbackURL: `http://localhost:3000${redirect}`,
+      callbackURL: `${API_URL}`,
     });
   };
   const form = useForm({

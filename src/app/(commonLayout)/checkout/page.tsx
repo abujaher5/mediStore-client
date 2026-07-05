@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useCurrentUser } from "@/hooks/get-logged-user";
 import { env } from "@/env";
+// import { cookies } from "next/headers.js";
 
 type FormData = {
   name: string;
@@ -143,11 +144,13 @@ export default function CheckoutPage() {
 
     setLoading(true);
     try {
+      // const cookieStore = await cookies();
       const res = await fetch(`${API_URL}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          // Authorization: `Bearer ${localStorage.getItem("token")}`,
+          // Cookie: cookieStore.toString(),
         },
         body: JSON.stringify({
           customer: {

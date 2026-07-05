@@ -15,15 +15,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { env } from "@/env";
 
 export function AddMedicineForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const [loading, setLoading] = useState(false);
-
-  const API_URL = env.NEXT_PUBLIC_API_URL;
 
   const router = useRouter();
 
@@ -46,7 +43,7 @@ export function AddMedicineForm({
     };
 
     try {
-      const res = await fetch(`${API_URL}/api/seller/medicines`, {
+      const res = await fetch("/api/seller/medicines", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

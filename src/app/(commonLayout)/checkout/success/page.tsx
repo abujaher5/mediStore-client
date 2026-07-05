@@ -14,7 +14,7 @@ export default function CheckoutSuccessPage({
         Thank you for your order. We&apos;ll deliver your medicines as soon as
         possible.
       </p>
-      {searchParams.orderId && (
+      {searchParams?.orderId && (
         <p className="text-xs text-gray-400 bg-gray-100 px-4 py-2 rounded-lg">
           Order ID:
           <span className="font-mono font-semibold">

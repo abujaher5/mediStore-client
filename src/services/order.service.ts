@@ -31,7 +31,7 @@ export const orderService = {
   },
 
   updateOrderStatus: async (orderId: string, status: string) => {
-    const res = await fetch(`${API_URL}/api/seller/orders/${orderId}`, {
+    const res = await fetch(`/api/seller/orders/${orderId}`, {
       method: "PATCH",
       credentials: "include",
 

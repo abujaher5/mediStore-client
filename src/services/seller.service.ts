@@ -1,12 +1,12 @@
 import { env } from "@/env";
 import { cookies } from "next/headers";
 
-const API_URL = env.API_URL;
+const API_URL = env.NEXT_PUBLIC_API_URL;
 export const sellerService = {
   myMedicines: async function () {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(`${API_URL}/seller/my-medicines`, {
+      const res = await fetch(`${API_URL}/api/seller/my-medicines`, {
         headers: {
           Cookie: cookieStore.toString(),
         },
@@ -23,7 +23,7 @@ export const sellerService = {
   getDashboardStats: async () => {
     const cookieStore = await cookies();
 
-    const res = await fetch(`${API_URL}/seller/medicines/dashboard-stats`, {
+    const res = await fetch(`${API_URL}/api/seller/medicines/dashboard-stats`, {
       headers: {
         Cookie: cookieStore.toString(),
       },
@@ -35,7 +35,7 @@ export const sellerService = {
   getMyOrders: async function () {
     const cookieStore = await cookies();
     try {
-      const res = await fetch(`${API_URL}/orders/my-orders`, {
+      const res = await fetch(`${API_URL}/api/orders/my-orders`, {
         headers: {
           Cookie: cookieStore.toString(),
         },
@@ -51,7 +51,7 @@ export const sellerService = {
   getOrderedMedicines: async () => {
     const cookieStore = await cookies();
 
-    const res = await fetch(`${API_URL}/seller/orders`, {
+    const res = await fetch(`${API_URL}/api/seller/orders`, {
       headers: {
         Cookie: cookieStore.toString(),
       },

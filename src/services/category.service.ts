@@ -17,7 +17,7 @@ export const categoryService = {
   },
 
   updateCategory: async (id: string, name: string) => {
-    const res = await fetch(`${API_URL}/api/admin/categories/${id}`, {
+    const res = await fetch(`/api/admin/categories/${id}`, {
       method: "PATCH",
       credentials: "include",
       headers: {
@@ -30,7 +30,7 @@ export const categoryService = {
   },
 
   deleteCategory: async (id: string) => {
-    const res = await fetch(`${API_URL}/api/admin/categories/${id}`, {
+    const res = await fetch(`/api/admin/categories/${id}`, {
       method: "DELETE",
       credentials: "include",
     });

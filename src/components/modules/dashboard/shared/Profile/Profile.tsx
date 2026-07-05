@@ -16,20 +16,20 @@ export const Profile = async () => {
         <div className="flex items-center gap-4 mb-5">
           <Avatar className="h-14 w-14 ring-2 ring-emerald-500/30 ring-offset-2 ring-offset-card">
             <AvatarFallback className="bg-emerald-500/10 text-emerald-500 text-xl font-semibold">
-              {user.name.charAt(0)}
+              {user?.name.charAt(0)}
             </AvatarFallback>
           </Avatar>
 
           <div className="flex-1 min-w-0">
             <p className="font-semibold text-lg leading-tight truncate">
-              {user.name}
+              {user?.name}
             </p>
             <Badge
               variant="outline"
               className="mt-1 text-xs border-emerald-500/40 text-emerald-600 bg-emerald-500/5 capitalize"
             >
               <ShieldCheck className="w-3 h-3 mr-1" />
-              {user.role}
+              {user?.role}
             </Badge>
           </div>
         </div>
@@ -44,7 +44,7 @@ export const Profile = async () => {
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Email</p>
-              <p className="font-medium leading-tight">{user.email}</p>
+              <p className="font-medium leading-tight">{user?.email}</p>
             </div>
           </div>
 
@@ -54,7 +54,7 @@ export const Profile = async () => {
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Phone</p>
-              <p className="font-medium leading-tight">{user.phone}</p>
+              <p className="font-medium leading-tight">{user?.phone}</p>
             </div>
           </div>
         </div>

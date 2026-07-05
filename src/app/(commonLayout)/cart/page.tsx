@@ -11,18 +11,17 @@ import { toast } from "sonner";
 
 export default function CartPage() {
   const { user, isPending } = useCurrentUser();
-  console.log(user);
   const router = useRouter();
 
   useEffect(() => {
     if (isPending) return;
 
-    if (!user) {
-      router.replace("/login");
-      return;
-    }
+    // if (!user) {
+    //   router.replace("/login");
+    //   return;
+    // }
 
-    if (user.role !== "CUSTOMER") {
+    if (user && user?.role !== "CUSTOMER") {
       router.push("/");
     }
   }, [user, isPending, router]);

@@ -5,6 +5,7 @@ import { medicineService } from "@/services/medicine.service";
 
 import { Medicine } from "@/types";
 import Link from "next/link";
+import { Suspense } from "react";
 
 type Props = {
   searchParams: Promise<{ search?: string }>;
@@ -17,7 +18,9 @@ const ShopPage = async ({ searchParams }: Props) => {
 
   return (
     <div className="container mx-auto flex flex-col items-center gap-5 lg:px-10">
-      <SearchInput />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchInput />
+      </Suspense>
 
       <div className="flex justify-end items-end  lg:ml-180 md:ml-130  text-center bg-gray-400 p-1.5 rounded-sm dark:hover:bg-gray-600 hover:bg-transparent">
         <Link href={"/categories"}>Show All Categories</Link>

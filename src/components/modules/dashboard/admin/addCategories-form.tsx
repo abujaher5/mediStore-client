@@ -21,8 +21,6 @@ const AddCategoriesForm = ({
   ...props
 }: React.ComponentProps<"div">) => {
   const [loading, setLoading] = useState(false);
-
-  const API_URL = env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,7 +35,7 @@ const AddCategoriesForm = ({
     };
 
     try {
-      const res = await fetch(`${API_URL}/api/admin/categories`, {
+      const res = await fetch("/api/admin/categories", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
