@@ -7,6 +7,7 @@ import {
   ShoppingCart,
   TrendingUp,
 } from "lucide-react";
+import { sellerService } from "@/services/seller.service";
 
 interface SellerStatsProps {
   stats: {
@@ -68,7 +69,9 @@ const statCards = (stats: SellerStatsProps["stats"]) => [
   },
 ];
 
-export default function SellerDashboardStats({ stats }: SellerStatsProps) {
+export default async function SellerDashboardStats() {
+  const { data: stats } = await sellerService.getDashboardStats();
+
   const cards = statCards(stats);
 
   return (

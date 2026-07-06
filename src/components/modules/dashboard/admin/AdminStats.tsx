@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { adminService } from "@/services/admin.service";
 
 import { Pill, ShoppingCart, User } from "lucide-react";
 
@@ -55,7 +56,8 @@ const statCards = (stats: AdminStatsProps["stats"]) => [
   },
 ];
 
-export default function AdminDashboardStats({ stats }: AdminStatsProps) {
+export default async function AdminDashboardStats() {
+  const stats = await adminService.getDashboardStats();
   const cards = statCards(stats);
 
   return (

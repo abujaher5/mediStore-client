@@ -12,6 +12,8 @@ export const adminService = {
       },
     });
 
-    return await res.json();
+    const data = await res.json();
+
+    return data;
   },
 };

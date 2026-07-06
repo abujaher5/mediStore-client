@@ -15,7 +15,6 @@ export async function proxy(request: NextRequest) {
   let isSeller = false;
 
   const { data } = await userService.getSession();
-  console.log("data12", data);
 
   if (data) {
     isAuthenticated = true;
@@ -30,9 +29,9 @@ export async function proxy(request: NextRequest) {
     isCustomer = true;
   }
 
-  // if (!isAuthenticated) {
-  //   return NextResponse.redirect(new URL("/login", request.url));
-  // }
+  if (!isAuthenticated) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
   if (isAdmin && pathname.startsWith("/seller-dashboard")) {
     return NextResponse.redirect(new URL("/admin-dashboard", request.url));

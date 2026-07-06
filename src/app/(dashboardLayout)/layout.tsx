@@ -23,7 +23,6 @@ export default async function DashboardLayout({
   // };
 
   const { data } = await userService.getSession();
-  console.log("data11", data);
 
   const userInfo = data?.user;
 

@@ -1,6 +1,5 @@
-"use client";
-
 import { Card, CardContent } from "@/components/ui/card";
+import { customerService } from "@/services/customer.service";
 import {
   ShoppingBag,
   Clock3,
@@ -83,7 +82,8 @@ const statCards = (stats: CustomerStatsProps["stats"]) => [
   },
 ];
 
-export default function CustomerDashboardStats({ stats }: CustomerStatsProps) {
+export default async function CustomerDashboardStats() {
+  const { data: stats } = await customerService.getDashboardStats();
   const cards = statCards(stats);
 
   return (

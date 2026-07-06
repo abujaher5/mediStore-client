@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "src/app/(dashboardLayout)/@seller/seller-dashboard/manage-stock"
+    "src/app/(dashboardLayout)/@seller/seller-dashboard/(withSpinLoader)/manage-stock"
   ],
   "exclude": ["node_modules"]
 }

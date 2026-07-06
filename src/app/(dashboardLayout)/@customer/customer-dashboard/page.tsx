@@ -3,11 +3,10 @@ import { LayoutDashboard } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 import CustomerDashboardStats from "@/components/modules/dashboard/customer/CustomerStats";
-import { customerService } from "@/services/customer.service";
+import { Suspense } from "react";
+import { DashboardCardSkeleton } from "@/components/modules/dashboard/shared/Loader/DashboardCardSkeleton";
 
 const CustomerDashboard = async () => {
-  const { data } = await customerService.getDashboardStats();
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
       <div className="flex items-center gap-3">
@@ -31,7 +30,10 @@ const CustomerDashboard = async () => {
         <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
           Overview
         </h3>
-        <CustomerDashboardStats stats={data} />
+
+        <Suspense fallback={<DashboardCardSkeleton />}>
+          <CustomerDashboardStats />
+        </Suspense>
       </section>
 
       <section>

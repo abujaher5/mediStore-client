@@ -1,13 +1,11 @@
 import { Profile } from "@/components/modules/dashboard/shared/Profile/Profile";
 import SellerDashboardStats from "@/components/modules/dashboard/seller/SellerStats";
-import { sellerService } from "@/services/seller.service";
-
 import { LayoutDashboard } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { Suspense } from "react";
+import { DashboardCardSkeleton } from "@/components/modules/dashboard/shared/Loader/DashboardCardSkeleton";
 
 const SellerDashboard = async () => {
-  const { data } = await sellerService.getDashboardStats();
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
       <div className="flex items-center gap-3">
@@ -30,13 +28,17 @@ const SellerDashboard = async () => {
         <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
           Overview
         </h3>
-        <SellerDashboardStats stats={data} />
+
+        <Suspense fallback={<DashboardCardSkeleton />}>
+          <SellerDashboardStats />
+        </Suspense>
       </section>
 
       <section>
         <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
           Account
         </h3>
+
         <Profile />
       </section>
     </div>
