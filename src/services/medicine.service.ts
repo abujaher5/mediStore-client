@@ -102,6 +102,14 @@ export const medicineService = {
     return res.json();
   },
 
+  restoreUser: async (id: string) => {
+    const res = await fetch(`/api/admin/users/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+    });
+    return res.json();
+  },
+
   updateStock: async (id: string, stock: number) => {
     const res = await fetch(`/api/seller/medicines/${id}`, {
       method: "PATCH",

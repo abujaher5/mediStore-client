@@ -85,6 +85,7 @@ const statCards = (stats: CustomerStatsProps["stats"]) => [
 export default async function CustomerDashboardStats() {
   const { data: stats } = await customerService.getDashboardStats();
   const cards = statCards(stats);
+  console.log(stats);
 
   return (
     <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
