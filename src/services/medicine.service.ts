@@ -71,44 +71,6 @@ export const medicineService = {
       };
     }
   },
-  getAllUsers: async function () {
-    try {
-      const res = await fetch(`${API_URL}/api/admin/users`);
-      const data = await res.json();
-
-      return { data: data, error: null };
-    } catch (error) {
-      console.error(error);
-      return { data: null, error: { message: "Something Went Wrong.." } };
-    }
-  },
-
-  updateUserStatus: async (id: string, status: string) => {
-    const res = await fetch(`/api/admin/users/${id}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status }),
-    });
-    return res.json();
-  },
-  deleteUser: async (id: string) => {
-    const res = await fetch(`/api/admin/users/${id}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
-    return res.json();
-  },
-
-  restoreUser: async (id: string) => {
-    const res = await fetch(`/api/admin/users/${id}`, {
-      method: "PATCH",
-      credentials: "include",
-    });
-    return res.json();
-  },
 
   updateStock: async (id: string, stock: number) => {
     const res = await fetch(`/api/seller/medicines/${id}`, {

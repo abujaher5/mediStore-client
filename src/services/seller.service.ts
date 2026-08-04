@@ -20,18 +20,6 @@ export const sellerService = {
     }
   },
 
-  getDashboardStats: async () => {
-    const cookieStore = await cookies();
-
-    const res = await fetch(`${API_URL}/api/seller/medicines/dashboard-stats`, {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    });
-
-    return await res.json();
-  },
-
   getMyOrders: async function () {
     const cookieStore = await cookies();
     try {

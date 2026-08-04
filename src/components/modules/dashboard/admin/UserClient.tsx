@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import { User } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,8 +11,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Trash2 } from "lucide-react";
-import { medicineService } from "@/services/medicine.service";
-// import UpdateUserModal from "./UpdateUserModal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -24,37 +20,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { adminService } from "@/services/admin.service";
 
 export default function UsersClient({ users }: { users: User[] }) {
-  // const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  // const [open, setOpen] = useState(false);
-
-  // const handleOpenModal = (user: User) => {
-  //   setSelectedUser(user);
-  //   setOpen(true);
-  // };
-
   const searchParams = useSearchParams();
-
   const currentStatus = searchParams.get("status") || "ACTIVE";
-
-  console.log({ currentStatus });
-
   const router = useRouter();
-  // const handleUpdateStatus = async (id: string, status: string) => {
-  //   await medicineService.updateUserStatus(id, status);
-  //   toast.success("Status update successfully");
-  //   router.refresh();
-  // };
-
   const handleDelete = async (id: string) => {
-    await medicineService.deleteUser(id);
+    await adminService.deleteUser(id);
     toast.success("User deleted successfully.");
     router.refresh();
   };
 
   const handleRestoreUser = async (id: string) => {
-    await medicineService.restoreUser(id);
+    await adminService.restoreUser(id);
     toast.success("User restored successfully.");
     router.refresh();
   };
@@ -67,7 +46,6 @@ export default function UsersClient({ users }: { users: User[] }) {
         <Select
           value={currentStatus}
           onValueChange={(value) => {
-            console.log("DROPDOWN CHANGED TO:", value);
             router.push(`/admin-dashboard/manage-users?status=${value}`);
             router.refresh();
           }}
@@ -95,8 +73,6 @@ export default function UsersClient({ users }: { users: User[] }) {
             <TableHead>Email</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Status</TableHead>
-            {/* <TableHead>Delete</TableHead>
-            <TableHead>All Users</TableHead> */}
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -110,25 +86,6 @@ export default function UsersClient({ users }: { users: User[] }) {
               <TableCell>{user.role}</TableCell>
               <TableCell>{user.status}</TableCell>
 
-              {/* <TableCell>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => handleDelete(user.id)}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </TableCell>
-
-              <TableCell>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleOpenModal(user)}
-                >
-                  <Users className="w-4 h-4" />
-                </Button>
-              </TableCell> */}
               <TableCell>
                 {user.status === "ACTIVE" ? (
                   <Button
@@ -152,13 +109,6 @@ export default function UsersClient({ users }: { users: User[] }) {
           ))}
         </TableBody>
       </Table>
-
-      {/* <UpdateUserModal
-        open={open}
-        onOpenChange={setOpen}
-        user={selectedUser}
-        onSubmit={handleUpdateStatus}
-      /> */}
     </div>
   );
 }

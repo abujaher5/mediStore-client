@@ -9,7 +9,6 @@ const AllUsersPage = async ({
 }) => {
   const { status: statusParam } = await searchParams;
   const status = statusParam || "ACTIVE";
-  console.log({ status });
   const { data } = await userService.getAllUsers(status);
 
   return <UsersClient users={data?.data || []} />;

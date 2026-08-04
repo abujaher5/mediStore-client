@@ -1,19 +1,16 @@
-import { env } from "@/env";
-import { cookies } from "next/headers";
-
-const API_URL = env.NEXT_PUBLIC_API_URL;
 export const adminService = {
-  getDashboardStats: async () => {
-    const cookieStore = await cookies();
-
-    const res = await fetch(`${API_URL}/api/admin/users/dashboard-stats`, {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
+  deleteUser: async (id: string) => {
+    const res = await fetch(`/api/admin/users/${id}`, {
+      method: "DELETE",
+      credentials: "include",
     });
-
-    const data = await res.json();
-
-    return data;
+    return res.json();
+  },
+  restoreUser: async (id: string) => {
+    const res = await fetch(`/api/admin/users/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+    });
+    return res.json();
   },
 };
