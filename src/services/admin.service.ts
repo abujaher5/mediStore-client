@@ -4,6 +4,7 @@ export const adminService = {
       method: "DELETE",
       credentials: "include",
     });
+
     return res.json();
   },
   restoreUser: async (id: string) => {
@@ -11,6 +12,14 @@ export const adminService = {
       method: "PATCH",
       credentials: "include",
     });
-    return res.json();
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(result.message || "Failed to restore user");
+    }
+    console.log(result);
+
+    return result;
   },
 };

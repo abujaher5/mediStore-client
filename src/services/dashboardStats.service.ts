@@ -11,11 +11,15 @@ export const dashboardStats = {
       headers: {
         Cookie: cookieStore.toString(),
       },
+      cache: "no-store",
     });
+    const result = await res.json();
 
-    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(result.message || "Failed to fetch dashboard stats");
+    }
 
-    return data;
+    return result.data;
   },
 
   getCustomerDashboardStats: async () => {
