@@ -6,9 +6,18 @@ import { Mail, Phone, ShieldCheck } from "lucide-react";
 import { userService } from "@/services/user.service";
 import Link from "next/link";
 
+const DASHBOARD_PATH_MAP: Record<string, string> = {
+  CUSTOMER: "/customer-dashboard",
+  SELLER: "/seller-dashboard",
+  ADMIN: "/admin-dashboard",
+};
+
 export const Profile = async () => {
   const { data } = await userService.getSession();
   const user = data?.user;
+
+  const dashboardPath =
+    DASHBOARD_PATH_MAP[user?.role] ?? "/customer-dashboard";
 
   return (
     <Card className="border border-border/60 shadow-sm">
@@ -35,7 +44,7 @@ export const Profile = async () => {
           </div>
 
           <div className="px-2 py-1 text  hover:bg-green-700 shadow-2xl  bg-green-500 rounded-md">
-            <Link href={"/customer-dashboard/manage-profile"}>
+            <Link href={`${dashboardPath}/manage-profile`}>
               Edit Profile
             </Link>
           </div>

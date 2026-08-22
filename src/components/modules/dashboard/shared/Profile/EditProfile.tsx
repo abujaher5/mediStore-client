@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Phone, User, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { env } from "@/env";
 
 interface EditProfileProps {
   user: {
@@ -64,13 +65,23 @@ export const EditProfile = ({ user }: EditProfileProps) => {
 
     setIsSubmitting(true);
     try {
-      const res = await userService?.updateProfile(formData);
+      const API_URL = env.NEXT_PUBLIC_API_URL;
+      const res = await fetch(`${API_URL}/api/users/profile`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-      if (res?.success) {
+      const data = await res.json();
+
+      if (res.ok) {
         toast.success("Profile updated successfully");
         router.refresh();
       } else {
-        toast.error(res?.message ?? "Failed to update profile");
+        toast.error(data?.message ?? "Failed to update profile");
       }
     } catch (error) {
       console.error(error);
