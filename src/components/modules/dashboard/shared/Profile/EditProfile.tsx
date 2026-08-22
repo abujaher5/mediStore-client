@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Phone, User, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { userService } from "@/services/user.service";
 
 interface EditProfileProps {
   user: {
@@ -92,7 +91,9 @@ export const EditProfile = ({ user }: EditProfileProps) => {
             </AvatarFallback>
           </Avatar>
           <div>
-            <p className="font-semibold text-lg leading-tight">Edit Profile</p>
+            <p className="font-semibold text-lg leading-tight">
+              {formData.name}
+            </p>
             <p className="text-xs text-muted-foreground">
               Update your account&apos;s essential information
             </p>

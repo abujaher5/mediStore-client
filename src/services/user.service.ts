@@ -43,7 +43,21 @@ export const userService = {
       return { data: null, error: { message: "Something Went Wrong.." } };
     }
   },
-  // getMe:async()=>{
-  //   const res=await fetch()
-  // }
+  getMe: async function () {
+    try {
+      const cookieStore = await cookies();
+      const res = await fetch(`${API_URL}/api/users/me`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
+
+      const data = await res.json();
+      return { data: data, error: null };
+    } catch (error) {
+      console.error(error);
+      return { data: null, error: { message: "Something Went Wrong.." } };
+    }
+  },
 };

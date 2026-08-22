@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Phone, ShieldCheck } from "lucide-react";
 import { userService } from "@/services/user.service";
+import Link from "next/link";
 
 export const Profile = async () => {
   const { data } = await userService.getSession();
@@ -31,6 +32,12 @@ export const Profile = async () => {
               <ShieldCheck className="w-3 h-3 mr-1" />
               {user?.role}
             </Badge>
+          </div>
+
+          <div className="px-2 py-1 text  hover:bg-green-700 shadow-2xl  bg-green-500 rounded-md">
+            <Link href={"/customer-dashboard/manage-profile"}>
+              Edit Profile
+            </Link>
           </div>
         </div>
 

@@ -1,11 +1,12 @@
-import { Profile } from "@/components/modules/dashboard/shared/Profile/Profile";
+import { EditProfile } from "@/components/modules/dashboard/shared/Profile/EditProfile";
+import { userService } from "@/services/user.service";
 
-const ManageProfilePage = () => {
+const ManageProfilePage = async () => {
+  const { data } = await userService.getMe();
+  const user = data?.data;
   return (
     <div>
-      {/* <Profile /> */}
-
-      <div></div>
+      <EditProfile user={user} />
     </div>
   );
 };

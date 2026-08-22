@@ -1,4 +1,3 @@
-import { Profile } from "../../../../components/modules/dashboard/shared/Profile/Profile";
 import { LayoutDashboard } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
@@ -34,13 +33,6 @@ const CustomerDashboard = async () => {
         <Suspense fallback={<DashboardCardSkeleton />}>
           <CustomerDashboardStats />
         </Suspense>
-      </section>
-
-      <section>
-        <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
-          Account
-        </h3>
-        <Profile />
       </section>
     </div>
   );
