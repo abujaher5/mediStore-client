@@ -33,14 +33,6 @@ const SellerDashboard = async () => {
           <SellerDashboardStats />
         </Suspense>
       </section>
-
-      <section>
-        <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
-          Account
-        </h3>
-
-        <Profile />
-      </section>
     </div>
   );
 };
