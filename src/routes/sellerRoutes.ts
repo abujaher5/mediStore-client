@@ -8,6 +8,10 @@ export const sellerRoutes = [
         url: "/seller-dashboard",
       },
       {
+        title: "My Profile",
+        url: "/seller-dashboard/my-profile",
+      },
+      {
         title: "Add Medicine",
         url: "/seller-dashboard/add-medicine",
       },
