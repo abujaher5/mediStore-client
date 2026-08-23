@@ -2,7 +2,7 @@
 import { Contact } from "@/components/modules/homepage/ContactPage";
 import { HeroSection } from "@/components/modules/homepage/HeroSection";
 import { MedicalEquipment } from "@/components/modules/homepage/MedicalEquipment";
-import Testimonials from "@/components/testimonials";
+import Testimonials from "@/components/modules/homepage/Testimonials";
 
 export default async function Home() {
   return (

@@ -1,5 +1,5 @@
 import { reviewService } from "@/services/review.service";
-import { Testimonial } from "./modules/dashboard/customer/Testimonial";
+import { Testimonial } from "../dashboard/customer/Testimonial";
 
 export default async function Testimonials() {
   const reviews = await reviewService.getAllReviews();

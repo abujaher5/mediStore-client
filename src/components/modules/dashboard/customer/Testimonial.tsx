@@ -48,7 +48,7 @@ export const Testimonial = ({
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-20 relative">
+    <div className="mx-auto w-full  px-4 py-10 relative">
       {/* Left Arrow */}
       <button
         onClick={handlePrev}
