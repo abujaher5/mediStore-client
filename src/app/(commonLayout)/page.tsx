@@ -1,4 +1,3 @@
-// import { Testimonial } from "@/components/modules/dashboard/customer/Testimonial";
 import { Contact } from "@/components/modules/homepage/ContactPage";
 import { HeroSection } from "@/components/modules/homepage/HeroSection";
 import { MedicalEquipment } from "@/components/modules/homepage/MedicalEquipment";

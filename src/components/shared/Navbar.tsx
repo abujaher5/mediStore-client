@@ -34,37 +34,7 @@ import { useCartStore } from "@/store/cartStore";
 import Image from "next/image";
 import { useCurrentUser } from "@/hooks/get-logged-user";
 import { useRouter } from "next/navigation";
-
-interface MenuItem {
-  title: string;
-  url: string;
-  description?: string;
-  icon?: React.ReactNode;
-  items?: MenuItem[];
-}
-
-interface Navbar1Props {
-  className?: string;
-  logo?: {
-    url: string;
-    src: string;
-    alt: string;
-    title: string;
-    className?: string;
-  };
-  menu?: MenuItem[];
-  baseMenu?: MenuItem[];
-  auth?: {
-    login: {
-      title: string;
-      url: string;
-    };
-    signup: {
-      title: string;
-      url: string;
-    };
-  };
-}
+import { MenuItem, Navbar1Props } from "@/types";
 
 const Navbar = ({
   logo = {
@@ -79,10 +49,6 @@ const Navbar = ({
       title: "Shop",
       url: "/shop",
     },
-    {
-      title: "Cart",
-      url: "/cart",
-    },
   ],
   auth = {
     login: { title: "Login", url: "/login" },
@@ -95,6 +61,7 @@ const Navbar = ({
   const menu = user
     ? [
         ...baseMenu,
+        ...(user.role === "CUSTOMER" ? [{ title: "Cart", url: "/cart" }] : []),
         {
           title: "Dashboard",
           url: "/customer-dashboard",
