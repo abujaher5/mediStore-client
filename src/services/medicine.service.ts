@@ -42,16 +42,38 @@ export const medicineService = {
   //   return res.json();
   // },
 
-  getAllMedicines: async ({ search }: { search?: string }) => {
-    const url = new URL(`${API_URL}/api/medicines`);
+  // getAllMedicines: async ({ search }: { search?: string }) => {
+  //   const url = new URL(`${API_URL}/api/medicines`);
 
-    if (search) {
-      url.searchParams.append("search", search);
-    }
+  //   if (search) {
+  //     url.searchParams.append("search", search);
+  //   }
 
-    const res = await fetch(url.toString(), {
+  //   const res = await fetch(url.toString(), {
+  //     cache: "no-store",
+  //   });
+  //   return res.json();
+  // },
+
+  getAllMedicines: async function ({
+    page = 1,
+    limit = 9,
+    search = "",
+  }: {
+    page?: number;
+    limit?: number;
+    search?: string;
+  }) {
+    const params = new URLSearchParams();
+    params.set("page", page.toString());
+    params.set("limit", limit.toString());
+    if (search) params.set("search", search);
+
+    const res = await fetch(`${API_URL}/api/medicines?${params.toString()}`, {
       cache: "no-store",
     });
+
+    if (!res.ok) throw new Error("Failed to fetch medicines");
     return res.json();
   },
 
