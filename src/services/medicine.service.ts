@@ -69,12 +69,26 @@ export const medicineService = {
     params.set("limit", limit.toString());
     if (search) params.set("search", search);
 
+    const url = `${API_URL}/api/medicines?${params.toString()}`;
+    console.log("Fetching url", url);
     const res = await fetch(`${API_URL}/api/medicines?${params.toString()}`, {
       cache: "no-store",
     });
 
-    if (!res.ok) throw new Error("Failed to fetch medicines");
-    return res.json();
+    if (!res.ok) {
+      const errorBody = await res.text();
+      console.log("status", res.status);
+      console.error("❌ Body:", errorBody);
+      throw new Error(`${res.status}: ${errorBody}`);
+
+      throw new Error("Failed to fetch medicines");
+    }
+
+    const result = await res.json();
+    return {
+      data: result.data,
+      meta: result.meta,
+    };
   },
 
   getMedicineDetails: async function (id: string) {
