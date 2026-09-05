@@ -1,4 +1,3 @@
-import { Profile } from "@/components/modules/dashboard/shared/Profile/Profile";
 import SellerDashboardStats from "@/components/modules/dashboard/seller/SellerStats";
 import { LayoutDashboard } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
