@@ -11,11 +11,18 @@ import { Mail, Phone, User, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { env } from "@/env";
 
+const DASHBOARD_PATH_MAP: Record<string, string> = {
+  CUSTOMER: "/customer-dashboard",
+  SELLER: "/seller-dashboard",
+  ADMIN: "/admin-dashboard",
+};
+
 interface EditProfileProps {
   user: {
     name: string;
     email: string;
     phone: string;
+    role?: string;
   };
 }
 
@@ -28,6 +35,7 @@ export const EditProfile = ({ user }: EditProfileProps) => {
     phone: user?.phone ?? "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const dashboardPath = DASHBOARD_PATH_MAP[user?.role ?? ""] ?? "/customer-dashboard";
 
   const handleChange = (field: keyof typeof formData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -79,6 +87,7 @@ export const EditProfile = ({ user }: EditProfileProps) => {
 
       if (res.ok) {
         toast.success("Profile updated successfully");
+        router.push(`${dashboardPath}/my-profile`);
         router.refresh();
       } else {
         toast.error(data?.message ?? "Failed to update profile");
