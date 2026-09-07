@@ -78,7 +78,9 @@ export default function AddReview() {
     <div className="mx-auto w-full max-w-2xl space-y-6">
       {/* Page header */}
       <div className="space-y-1">
-        <h2 className="text-2xl font-bold tracking-tight">Share Your Experience</h2>
+        <h2 className="text-2xl font-bold tracking-tight">
+          Share Your Experience
+        </h2>
         <p className="text-sm text-muted-foreground">
           Your feedback helps other customers make better choices
         </p>
@@ -86,7 +88,7 @@ export default function AddReview() {
 
       <Card className="overflow-hidden rounded-2xl border-border/60 shadow-lg">
         {/* Gradient header */}
-        <div className="relative bg-gradient-to-r from-green-600 to-emerald-500 px-6 py-5 text-white">
+        <div className="relative bg-linear-to-r from-green-600 to-emerald-500 px-6 py-5 text-white">
           <Quote className="absolute right-5 top-5 size-16 opacity-15" />
           <p className="text-sm font-medium uppercase tracking-wider text-green-50/80">
             MediStore
@@ -104,7 +106,9 @@ export default function AddReview() {
             </Avatar>
 
             <div className="min-w-0">
-              <p className="truncate font-semibold">{user?.name || "Guest User"}</p>
+              <p className="truncate font-semibold">
+                {user?.name || "Guest User"}
+              </p>
               <p className="flex items-center gap-1 text-sm text-muted-foreground">
                 <BadgeCheck className="size-4 text-green-600" />
                 Posting publicly as a verified customer
@@ -220,7 +224,7 @@ export default function AddReview() {
             <Button
               onClick={handleSubmit}
               disabled={loading || !isValid}
-              className="flex-[2] bg-green-600 font-semibold hover:bg-green-700"
+              className="flex-2 bg-green-600 font-semibold hover:bg-green-700"
             >
               {loading ? (
                 <>
