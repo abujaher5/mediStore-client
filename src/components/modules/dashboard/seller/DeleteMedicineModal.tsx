@@ -1,71 +1,87 @@
 "use client";
 
+import { Loader2, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import type { Medicine } from "@/types";
 
-import { Trash2 } from "lucide-react";
-import { toast } from "sonner";
-import { env } from "@/env";
-
-interface Props {
-  medicineId: string;
+interface DeleteMedicineModalProps {
+  medicine: Medicine | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSubmit: (id: string) => Promise<void>;
 }
 
-export default function DeleteMedicineModal({ medicineId }: Props) {
+const DeleteMedicineModal = ({
+  medicine,
+  open,
+  onOpenChange,
+  onSubmit,
+}: DeleteMedicineModalProps) => {
   const [loading, setLoading] = useState(false);
-  const API_URL = env.NEXT_PUBLIC_API_URL;
 
   const handleDelete = async () => {
-    setLoading(true);
+    if (!medicine) return;
 
-    const res = await fetch(`${API_URL}/api/seller/medicines/${medicineId}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
-
-    if (res.ok) {
-      toast.success("Deleted successfully");
-      window.location.reload();
-    } else {
-      toast.warning("Delete failed");
+    try {
+      setLoading(true);
+      await onSubmit(medicine.id);
+      onOpenChange(false);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button size="sm" variant="destructive">
-          <Trash2 className="w-4 h-4 mr-1" />
-          Delete
-        </Button>
-      </AlertDialogTrigger>
-
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure you want to delete?</AlertDialogTitle>
+          <AlertDialogTitle>Delete medicine?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This will permanently delete
+            <span className="font-medium text-foreground">
+              {medicine ? ` "${medicine.name}"` : " this medicine"}
+            </span>
+            from your listings. This action cannot be undone.
+          </AlertDialogDescription>
         </AlertDialogHeader>
-
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-
-          <AlertDialogAction onClick={handleDelete} disabled={loading}>
-            {loading ? "Deleting..." : "Delete"}
+          <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            disabled={loading}
+            onClick={(e) => {
+              e.preventDefault();
+              handleDelete();
+            }}
+          >
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              <>
+                <Trash2 />
+                Delete
+              </>
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+};
+
+export { DeleteMedicineModal };
+export default DeleteMedicineModal;

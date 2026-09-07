@@ -1,125 +1,240 @@
 "use client";
 
-import { useState } from "react";
-import { Medicine } from "@/types";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Loader2, Save } from "lucide-react";
+import { useEffect, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import type { Medicine } from "@/types";
 
-import { Pencil } from "lucide-react";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { env } from "@/env";
-
-interface Props {
-  medicine: Medicine;
+interface UpdateMedicineModalProps {
+  medicine: Medicine | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSubmit: (
+    id: string,
+    payload: {
+      name: string;
+      price: number;
+      stock: number;
+      manufacturer: string;
+    },
+  ) => Promise<boolean>;
 }
 
-export default function UpdateMedicineModal({ medicine }: Props) {
-  const API_URL = env.NEXT_PUBLIC_API_URL;
-  const router = useRouter();
-  const [open, setOpen] = useState(false);
+const UpdateMedicineModal = ({
+  medicine,
+  open,
+  onOpenChange,
+  onSubmit,
+}: UpdateMedicineModalProps) => {
+  const [name, setName] = useState("");
+  const [manufacturer, setManufacturer] = useState("");
+  const [price, setPrice] = useState("");
+  const [stock, setStock] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState({
-    name: medicine.name,
-    price: medicine.price,
-    stock: medicine.stock,
-    manufacturer: medicine.manufacturer,
-  });
+  useEffect(() => {
+    if (open && medicine) {
+      setName(medicine.name);
+      setManufacturer(medicine.manufacturer);
+      setPrice(String(medicine.price));
+      setStock(String(medicine.stock));
+      setError(null);
+    }
+  }, [open, medicine]);
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "price" || name === "stock" ? Number(value) : value,
-    }));
+  const validate = () => {
+    if (!name.trim() || name.trim().length < 2) {
+      return "Name must be at least 2 characters.";
+    }
+    if (!manufacturer.trim() || manufacturer.trim().length < 2) {
+      return "Manufacturer must be at least 2 characters.";
+    }
+    if (price === "" || isNaN(Number(price)) || Number(price) <= 0) {
+      return "Enter a valid price greater than 0.";
+    }
+    if (
+      stock === "" ||
+      !Number.isInteger(Number(stock)) ||
+      Number(stock) < 0
+    ) {
+      return "Enter a valid stock quantity (whole number, 0 or more).";
+    }
+    return null;
   };
 
   const handleUpdate = async () => {
-    const res = await fetch(
-      `${API_URL}/api/seller/medicines/updateMedicine/${medicine.id}`,
-      {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      },
-    );
+    if (!medicine) return;
 
-    const data = await res.json();
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
 
-    if (res.ok) {
-      toast.success("Updated successfully");
-      setOpen(false);
-      router.refresh();
-    } else {
-      toast.warning(data.message || "Update failed");
+    try {
+      setLoading(true);
+      const success = await onSubmit(medicine.id, {
+        name: name.trim(),
+        price: Number(price),
+        stock: Math.trunc(Number(stock)),
+        manufacturer: manufacturer.trim(),
+      });
+      if (success) {
+        onOpenChange(false);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm" variant="outline">
-          <Pencil className="w-4 h-4 mr-1" />
-          Edit
-        </Button>
-      </DialogTrigger>
+  const isUnchanged =
+    !!medicine &&
+    name === medicine.name &&
+    manufacturer === medicine.manufacturer &&
+    price === String(medicine.price) &&
+    stock === String(medicine.stock);
 
-      <DialogContent>
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Update Medicine</DialogTitle>
+          <DialogDescription>
+            Update details for
+            <span className="font-medium text-foreground">
+              {medicine ? ` "${medicine.name}"` : " this medicine"}
+            </span>
+            .
+          </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <Input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Medicine Name"
-          />
+        <div className="flex flex-col gap-4">
+          <Field data-invalid={!!error}>
+            <FieldLabel htmlFor="update-medicine-name">Name</FieldLabel>
+            <Input
+              id="update-medicine-name"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setError(null);
+              }}
+              disabled={loading}
+              maxLength={100}
+              placeholder="Medicine name"
+            />
+          </Field>
 
-          <Input
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            placeholder="Price"
-          />
+          <Field data-invalid={!!error}>
+            <FieldLabel htmlFor="update-medicine-manufacturer">
+              Manufacturer
+            </FieldLabel>
+            <Input
+              id="update-medicine-manufacturer"
+              value={manufacturer}
+              onChange={(e) => {
+                setManufacturer(e.target.value);
+                setError(null);
+              }}
+              disabled={loading}
+              maxLength={50}
+              placeholder="Manufacturer"
+            />
+          </Field>
 
-          <Input
-            name="stock"
-            value={formData.stock}
-            onChange={handleChange}
-            placeholder="Stock"
-          />
+          <div className="grid grid-cols-2 gap-3">
+            <Field data-invalid={!!error}>
+              <FieldLabel htmlFor="update-medicine-price">Price ($)</FieldLabel>
+              <Input
+                id="update-medicine-price"
+                type="number"
+                step="0.01"
+                min="0"
+                value={price}
+                onChange={(e) => {
+                  setPrice(e.target.value);
+                  setError(null);
+                }}
+                disabled={loading}
+                placeholder="0.00"
+              />
+            </Field>
 
-          <Input
-            name="manufacturer"
-            value={formData.manufacturer}
-            onChange={handleChange}
-            placeholder="Manufacturer"
-          />
+            <Field data-invalid={!!error}>
+              <FieldLabel htmlFor="update-medicine-stock">Stock</FieldLabel>
+              <Input
+                id="update-medicine-stock"
+                type="number"
+                min="0"
+                step="1"
+                value={stock}
+                onChange={(e) => {
+                  setStock(e.target.value);
+                  setError(null);
+                }}
+                disabled={loading}
+                placeholder="0"
+              />
+            </Field>
+          </div>
 
-          <Button onClick={handleUpdate}>Save Changes</Button>
+          {medicine?.description && (
+            <Field>
+              <FieldLabel htmlFor="update-medicine-description">
+                Description (read-only)
+              </FieldLabel>
+              <Textarea
+                id="update-medicine-description"
+                value={medicine.description}
+                rows={3}
+                disabled
+              />
+            </Field>
+          )}
+
+          {error && <FieldError>{error}</FieldError>}
+
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              disabled={loading}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleUpdate}
+              disabled={loading || isUnchanged || !name.trim() || !price || !stock}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save />
+                  Save Changes
+                </>
+              )}
+            </Button>
+          </DialogFooter>
         </div>
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default UpdateMedicineModal;

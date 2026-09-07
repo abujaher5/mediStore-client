@@ -1,8 +1,42 @@
 import { env } from "@/env";
+import type {
+  TCreateMedicinePayload,
+  TMedicineResponse,
+  TUpdateMedicinePayload,
+} from "@/types";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
 export const medicineService = {
+  createMedicine: async function (
+    payload: TCreateMedicinePayload,
+  ): Promise<TMedicineResponse> {
+    const res = await fetch(`/api/seller/medicines`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      const details = JSON.stringify(result?.details ?? "");
+      const isInvalidCategory = details.includes("P2003");
+
+      throw new Error(
+        isInvalidCategory
+          ? "The selected category no longer exists. Please choose another one."
+          : result?.message ||
+              result?.error ||
+              "Failed to add medicine, please try again..",
+      );
+    }
+
+    return result;
+  },
   // getAllMedicines: async function (params?: string, options?: ServiceOptions) {
   //   try {
   //     const url = new URL(`${API_URL}/api/medicines`);
@@ -108,7 +142,10 @@ export const medicineService = {
     }
   },
 
-  updateStock: async (id: string, stock: number) => {
+  updateStock: async function (
+    id: string,
+    stock: number,
+  ): Promise<TMedicineResponse> {
     const res = await fetch(`/api/seller/medicines/${id}`, {
       method: "PATCH",
       credentials: "include",
@@ -118,6 +155,61 @@ export const medicineService = {
       body: JSON.stringify({ stock }),
     });
 
-    return res.json();
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(
+        result?.message ||
+          result?.error ||
+          "Failed to update stock, please try again..",
+      );
+    }
+
+    return result;
+  },
+
+  updateMedicine: async function (
+    id: string,
+    payload: TUpdateMedicinePayload,
+  ): Promise<TMedicineResponse> {
+    const res = await fetch(`/api/seller/medicines/updateMedicine/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(
+        result?.message ||
+          result?.error ||
+          "Failed to update medicine, please try again..",
+      );
+    }
+
+    return result;
+  },
+
+  deleteMedicine: async function (id: string): Promise<TMedicineResponse> {
+    const res = await fetch(`/api/seller/medicines/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(
+        result?.message ||
+          result?.error ||
+          "Failed to delete medicine, please try again..",
+      );
+    }
+
+    return result;
   },
 };
