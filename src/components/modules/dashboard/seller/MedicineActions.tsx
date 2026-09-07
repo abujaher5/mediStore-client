@@ -17,13 +17,17 @@ const MedicineActions = ({ medicine }: { medicine: Medicine }) => {
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const handleUpdate = async (id: string, payload: TUpdateMedicinePayload) => {
+  const handleUpdate = async (
+    id: string,
+    payload: TUpdateMedicinePayload,
+  ): Promise<boolean> => {
     const toastId = toast.loading("Updating medicine...");
 
     try {
       await medicineService.updateMedicine(id, payload);
       toast.success("Medicine updated successfully.", { id: toastId });
       router.refresh();
+      return true;
     } catch (error) {
       toast.error(
         error instanceof Error
@@ -31,17 +35,18 @@ const MedicineActions = ({ medicine }: { medicine: Medicine }) => {
           : "Failed to update medicine, please try again..",
         { id: toastId },
       );
-      throw error;
+      return false;
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string): Promise<boolean> => {
     const toastId = toast.loading(`Deleting "${medicine.name}"...`);
 
     try {
       await medicineService.deleteMedicine(id);
       toast.success("Medicine deleted successfully.", { id: toastId });
       router.refresh();
+      return true;
     } catch (error) {
       toast.error(
         error instanceof Error
@@ -49,7 +54,7 @@ const MedicineActions = ({ medicine }: { medicine: Medicine }) => {
           : "Failed to delete medicine, please try again..",
         { id: toastId },
       );
-      throw error;
+      return false;
     }
   };
 

@@ -59,7 +59,7 @@ const MedicineDetails = ({ medicine }: MedicineDetailsProps) => {
           <p className="text-md text-gray-500 leading-relaxed line-clamp-2">
             Category :
             <span className="text-teal-600 font-semibold ml-2">
-              {medicine.category.name}
+              {medicine.category?.name ?? "Uncategorized"}
             </span>
           </p>
 

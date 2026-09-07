@@ -1,6 +1,5 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -12,8 +11,7 @@ import {
 
 import { sellerService } from "@/services/seller.service";
 import { Medicine } from "@/types";
-import UpdateMedicineModal from "@/components/modules/dashboard/seller/UpdateMedicineModal";
-import DeleteMedicineModal from "@/components/modules/dashboard/seller/DeleteMedicineModal";
+import MedicineActions from "@/components/modules/dashboard/seller/MedicineActions";
 
 const ManageMedicinePage = async () => {
   const { data: medicines } = await sellerService.myMedicines();
@@ -30,8 +28,7 @@ const ManageMedicinePage = async () => {
             <TableHead>Price</TableHead>
             <TableHead>Stock</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Update</TableHead>
-            <TableHead>Delete</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -61,10 +58,7 @@ const ManageMedicinePage = async () => {
               </TableCell>
 
               <TableCell>
-                <UpdateMedicineModal medicine={medicine} />
-              </TableCell>
-              <TableCell>
-                <DeleteMedicineModal medicineId={medicine.id} />
+                <MedicineActions medicine={medicine} />
               </TableCell>
             </TableRow>
           ))}

@@ -1,51 +1,28 @@
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Pill } from "lucide-react";
 
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import MyMedicinesTable from "@/components/modules/dashboard/seller/MyMedicinesTable";
 import { sellerService } from "@/services/seller.service";
-import { Medicine } from "@/types";
 
 const MyMedicinesPage = async () => {
   const { data: medicines } = await sellerService.myMedicines();
 
   return (
-    <div>
-      <Table>
-        <TableCaption>My Medicines</TableCaption>
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
+      <div className="flex items-center gap-3">
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <Pill className="size-5" />
+        </div>
+        <div className="space-y-0.5">
+          <h1 className="text-2xl font-semibold tracking-tight">
+            My Medicines
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Browse, search and manage all the medicines you have listed.
+          </p>
+        </div>
+      </div>
 
-        <TableHeader>
-          <TableRow>
-            <TableHead>id</TableHead>
-            <TableHead>Image</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Stock</TableHead>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {medicines.map((medicine: Medicine) => (
-            <TableRow key={medicine.id}>
-              <TableCell>{medicine.id}</TableCell>
-              <TableCell>
-                <Avatar>
-                  <AvatarImage src={medicine.imageUrl} />
-                </Avatar>
-              </TableCell>
-              <TableCell>{medicine.name}</TableCell>
-              <TableCell>{medicine.price}</TableCell>
-              <TableCell>{medicine.stock}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <MyMedicinesTable medicines={medicines ?? []} />
     </div>
   );
 };

@@ -13,14 +13,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import type { Medicine } from "@/types";
 
 interface DeleteMedicineModalProps {
   medicine: Medicine | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (id: string) => Promise<void>;
+  onSubmit: (id: string) => Promise<boolean>;
 }
 
 const DeleteMedicineModal = ({
@@ -36,8 +35,10 @@ const DeleteMedicineModal = ({
 
     try {
       setLoading(true);
-      await onSubmit(medicine.id);
-      onOpenChange(false);
+      const success = await onSubmit(medicine.id);
+      if (success) {
+        onOpenChange(false);
+      }
     } finally {
       setLoading(false);
     }
