@@ -3,7 +3,11 @@ import { env } from "@/env";
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
 export const reviewService = {
-  createReview: async (payload: { quote: string; designation: string }) => {
+  createReview: async (payload: {
+    quote: string;
+    designation: string;
+    rating: number;
+  }) => {
     const res = await fetch(`/api/reviews/create-review`, {
       method: "POST",
       credentials: "include",

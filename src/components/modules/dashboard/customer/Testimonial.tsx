@@ -4,6 +4,7 @@ import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
+import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Testimonial = {
@@ -11,6 +12,7 @@ type Testimonial = {
   quote: string;
   name: string;
   designation: string;
+  rating?: number;
   src: string;
 };
 
@@ -99,6 +101,21 @@ export const Testimonial = ({
                   <p className="text-sm text-muted-foreground">
                     {testimonial.designation}
                   </p>
+
+                  {testimonial.rating ? (
+                    <div className="mt-1 flex items-center gap-0.5">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className={`size-3.5 ${
+                            star <= testimonial.rating!
+                              ? "fill-amber-400 text-amber-400"
+                              : "fill-muted text-muted-foreground/30"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               </div>
 
