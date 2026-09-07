@@ -19,11 +19,6 @@ export const sellerRoutes = [
         title: "My Medicines",
         url: "/seller-dashboard/my-medicines",
       },
-
-      {
-        title: "Manage Medicine",
-        url: "/seller-dashboard/manage-medicine",
-      },
       {
         title: "Manage Stock",
         url: "/seller-dashboard/manage-stock",
