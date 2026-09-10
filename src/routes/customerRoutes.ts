@@ -17,6 +17,10 @@ export const customerRoutes = [
         title: "Add Review",
         url: "/customer-dashboard/add-review",
       },
+      {
+        title: "Become A Seller",
+        url: "/customer-dashboard/role-request",
+      },
 
       {
         title: "Back To Home",

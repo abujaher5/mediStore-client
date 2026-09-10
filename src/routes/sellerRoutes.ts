@@ -31,6 +31,10 @@ export const sellerRoutes = [
         title: "Manage Orders",
         url: "/seller-dashboard/manage-orders",
       },
+      {
+        title: "Request Admin Role",
+        url: "/seller-dashboard/role-request",
+      },
 
       {
         title: "Back To Home",

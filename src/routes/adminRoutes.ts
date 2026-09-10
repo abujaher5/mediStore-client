@@ -5,6 +5,7 @@ export const adminRoutes = [
       { title: "Dashboard Stats", url: "/admin-dashboard" },
       { title: "My Profile", url: "/admin-dashboard/my-profile" },
       { title: "Manage Users", url: "/admin-dashboard/manage-users" },
+      { title: "Role Requests", url: "/admin-dashboard/role-requests" },
       { title: "Add Categories", url: "/admin-dashboard/add-categories" },
       { title: "Manage Categories", url: "/admin-dashboard/manage-categories" },
       { title: "All Orders", url: "/admin-dashboard/all-orders" },
