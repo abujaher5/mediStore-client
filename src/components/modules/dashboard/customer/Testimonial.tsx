@@ -45,7 +45,7 @@ export const Testimonial = ({
 
   // visible cards logic
   const visibleTestimonials = Array.from(
-    { length: Math.min(cardsToShow, testimonials.length) },
+    { length: Math.min(cardsToShow, testimonials?.length) },
     (_, i) => testimonials[(active + i) % testimonials.length],
   );
 
