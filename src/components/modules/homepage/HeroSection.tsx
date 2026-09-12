@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { reviewService } from "@/services/review.service";
 import Image from "next/image";
 
 interface Hero3Props {
@@ -28,14 +29,6 @@ interface Hero3Props {
       text: string;
       url: string;
     };
-  };
-  reviews?: {
-    count: number;
-    avatars: {
-      src: string;
-      alt: string;
-    }[];
-    rating?: number;
   };
   className?: string;
 }
@@ -91,7 +84,39 @@ const features = [
   },
 ];
 
-const HeroSection = ({
+const getReviewStats = async () => {
+  try {
+    const reviewsResponse = await reviewService.getAllReviews();
+    const testimonials: {
+      id: string;
+      name: string;
+      rating?: number;
+      src: string;
+    }[] = reviewsResponse?.data ?? [];
+
+    const avatars = testimonials.map((testimonial) => ({
+      src:
+        testimonial.src ||
+        `https://api.dicebear.com/9.x/initials/svg?seed=${testimonial.name}`,
+      alt: testimonial.name,
+    }));
+
+    const rated = testimonials.filter(
+      (testimonial) => typeof testimonial.rating === "number",
+    );
+    const rating = rated.length
+      ? rated.reduce((sum, testimonial) => sum + (testimonial.rating ?? 0), 0) /
+        rated.length
+      : 0;
+
+    return { count: testimonials.length, avatars, rating };
+  } catch (error) {
+    console.error("Failed to fetch reviews", error);
+    return { count: 0, avatars: [], rating: 0 };
+  }
+};
+
+const HeroSection = async ({
   heading = "Take Medicine And Fall Away The Disease",
   description = "Your trusted online medicine store, delivering genuine healthcare products right to your doorstep. Order quality medicines online with ease — fast delivery, trusted brands, and care you can rely on.",
   buttons = {
@@ -104,34 +129,10 @@ const HeroSection = ({
       url: "/shop",
     },
   },
-  reviews = {
-    count: 200,
-    rating: 5.0,
-    avatars: [
-      {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp",
-        alt: "Avatar 1",
-      },
-      {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-2.webp",
-        alt: "Avatar 2",
-      },
-      {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-3.webp",
-        alt: "Avatar 3",
-      },
-      {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-4.webp",
-        alt: "Avatar 4",
-      },
-      {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-5.webp",
-        alt: "Avatar 5",
-      },
-    ],
-  },
   className,
 }: Hero3Props) => {
+  const reviews = await getReviewStats();
+
   return (
     <section
       className={cn("relative overflow-hidden px-4 py-16 lg:py-24", className)}
