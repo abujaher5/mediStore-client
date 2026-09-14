@@ -139,7 +139,7 @@ const HeroSection = async ({
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,var(--color-primary)/8%,transparent_55%)]"
+        className="pointer-events-none absolute inset-0 bg-radial-[ellipse_at_top_left] from-primary/8 to-transparent to-55%"
       />
       <div
         aria-hidden
@@ -147,11 +147,11 @@ const HeroSection = async ({
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-40 -left-32 size-[24rem] rounded-full bg-emerald-500/10 blur-3xl"
+        className="pointer-events-none absolute -bottom-40 -left-32 size-96 rounded-full bg-emerald-500/10 blur-3xl"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,var(--color-border)/60%,transparent_0),linear-gradient(to_bottom,var(--color-border)/60%,transparent_0)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)] opacity-40"
+        className="pointer-events-none absolute inset-0 bg-linear-to-r from-border/60 to-transparent bg-size-[40px_40px] mask-[radial-gradient(ellipse_at_center,black_10%,transparent_70%)] opacity-40 before:absolute before:inset-0 before:bg-linear-to-b before:from-border/60 before:to-transparent before:bg-size-[40px_40px] before:content-['']"
       />
 
       <div className="container relative grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
@@ -287,7 +287,7 @@ const HeroSection = async ({
               height={800}
               width={800}
               alt="Medicine Banner"
-              className="h-full max-h-[600px] w-full object-cover transition-transform duration-700 hover:scale-105"
+              className="h-full max-h-150 w-full object-cover transition-transform duration-700 hover:scale-105"
             />
             <div
               aria-hidden
