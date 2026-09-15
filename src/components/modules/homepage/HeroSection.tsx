@@ -1,20 +1,22 @@
 import {
   ArrowRight,
+  BadgePercent,
   Clock,
+  PackageCheck,
   Pill,
   ShieldCheck,
   Sparkles,
   Star,
+  Store,
   Truck,
 } from "lucide-react";
-
-import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { reviewService } from "@/services/review.service";
-import Image from "next/image";
 
 interface Hero3Props {
   heading?: string;
@@ -84,6 +86,24 @@ const features = [
   },
 ];
 
+const stats = [
+  {
+    icon: PackageCheck,
+    value: "10K+",
+    label: "Orders delivered",
+  },
+  {
+    icon: Store,
+    value: "500+",
+    label: "Trusted brands",
+  },
+  {
+    icon: BadgePercent,
+    value: "30%",
+    label: "Average savings",
+  },
+];
+
 const getReviewStats = async () => {
   try {
     const reviewsResponse = await reviewService.getAllReviews();
@@ -135,7 +155,10 @@ const HeroSection = async ({
 
   return (
     <section
-      className={cn("relative overflow-hidden px-4 py-16 lg:py-24", className)}
+      className={cn(
+        "relative w-full overflow-hidden px-4 py-20 lg:py-28",
+        className,
+      )}
     >
       <div
         aria-hidden
@@ -154,9 +177,9 @@ const HeroSection = async ({
         className="pointer-events-none absolute inset-0 bg-linear-to-r from-border/60 to-transparent bg-size-[40px_40px] mask-[radial-gradient(ellipse_at_center,black_10%,transparent_70%)] opacity-40 before:absolute before:inset-0 before:bg-linear-to-b before:from-border/60 before:to-transparent before:bg-size-[40px_40px] before:content-['']"
       />
 
-      <div className="container relative grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
+      <div className="container relative grid items-center gap-14 lg:grid-cols-2 lg:items-stretch lg:gap-16">
         <div className="mx-auto flex flex-col items-center text-center md:ml-auto lg:max-w-2xl lg:items-start lg:text-left">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
             <Sparkles className="size-4" />
             Trusted Online Pharmacy
             <span className="relative flex size-2">
@@ -165,15 +188,15 @@ const HeroSection = async ({
             </span>
           </div>
 
-          <h1 className="mb-6 text-4xl font-bold leading-[1.1] tracking-tight text-pretty sm:text-5xl lg:text-6xl xl:text-6xl">
+          <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight text-balance sm:text-5xl lg:text-6xl xl:text-7xl">
             {renderHeading(heading)}
           </h1>
 
-          <p className="mb-8 max-w-xl text-base text-muted-foreground sm:text-lg">
+          <p className="mb-9 max-w-xl text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg">
             {description}
           </p>
 
-          <div className="mb-10 grid w-full max-w-xl grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="mb-9 grid w-full max-w-xl grid-cols-1 gap-3 sm:grid-cols-3">
             {features.map((feature) => (
               <Card
                 key={feature.title}
@@ -195,7 +218,7 @@ const HeroSection = async ({
           </div>
 
           {reviews.count > 0 && (
-            <div className="mb-8 flex w-fit flex-col items-center gap-4 sm:flex-row   ">
+            <div className="mb-9 flex w-fit flex-col items-center gap-4 sm:flex-row">
               <span className="inline-flex items-center -space-x-3">
                 {reviews.avatars.slice(0, 4).map((avatar, index) => (
                   <Avatar
@@ -270,7 +293,7 @@ const HeroSection = async ({
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
+        <div className="relative mx-auto flex w-full max-w-lg flex-col gap-4 lg:max-w-none">
           <div
             aria-hidden
             className="absolute -inset-6 -z-10 rounded-[3rem] bg-linear-to-tr from-primary/20 via-transparent to-emerald-500/20 blur-2xl"
@@ -280,19 +303,40 @@ const HeroSection = async ({
             className="absolute -right-4 -top-4 -z-10 size-full rounded-[2.5rem] border-2 border-dashed border-primary/25"
           />
 
-          <div className="relative overflow-hidden rounded-[2.5rem] shadow-2xl ring-1 ring-border/60">
+          <div className="relative aspect-[1500/945] w-full shrink-0 overflow-hidden rounded-[2.5rem] shadow-2xl ring-1 ring-border/60">
             <Image
               src="https://res.cloudinary.com/dngogzccp/image/upload/v1777030616/medicineBanner_vyrrag.jpg"
               priority
-              height={800}
-              width={800}
+              fill
+              sizes="(max-width: 1024px) 90vw, 45vw"
               alt="Medicine Banner"
-              className="h-full max-h-150 w-full object-cover transition-transform duration-700 hover:scale-105"
+              className="object-cover transition-transform duration-700 hover:scale-105"
             />
             <div
               aria-hidden
               className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent"
             />
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 lg:min-h-0 lg:flex-1 lg:grid-cols-1 lg:grid-rows-3">
+            {stats.map((stat) => (
+              <Card
+                key={stat.label}
+                className="group flex flex-col items-center justify-center gap-2 rounded-2xl border-border/60 bg-card/60 p-4 text-center shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-md lg:flex-row lg:gap-3 lg:text-left"
+              >
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                  <stat.icon className="size-5" />
+                </span>
+                <span>
+                  <span className="block text-xl font-bold text-primary sm:text-2xl">
+                    {stat.value}
+                  </span>
+                  <span className="block text-xs font-medium text-muted-foreground sm:text-sm">
+                    {stat.label}
+                  </span>
+                </span>
+              </Card>
+            ))}
           </div>
         </div>
       </div>
