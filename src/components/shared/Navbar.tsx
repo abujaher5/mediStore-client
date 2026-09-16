@@ -30,7 +30,7 @@ import Link from "next/link";
 import { ThemeChanger } from "./ThemeChanger";
 import { authClient } from "@/lib/auth-client";
 import CartIcon from "../modules/homepage/CartIcon";
-import { useCartStore } from "@/store/cartStore";
+import { useCart } from "@/providers/CartProvider";
 import Image from "next/image";
 import { useCurrentUser } from "@/hooks/get-logged-user";
 import { useRouter } from "next/navigation";
@@ -87,7 +87,7 @@ const Navbar = ({
     });
   };
 
-  const cart = useCartStore((state) => state.cart);
+  const cart = useCart();
   const totalItem = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (

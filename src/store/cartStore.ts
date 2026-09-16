@@ -53,10 +53,14 @@
 "use client";
 
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import {
+  createJSONStorage,
+  persist,
+  type StateStorage,
+} from "zustand/middleware";
 import { toast } from "sonner";
 
-interface CartItem {
+export interface CartItem {
   id: string;
   name: string;
   price: number;
@@ -66,6 +70,8 @@ interface CartItem {
 
 interface CartStore {
   cart: CartItem[];
+  hasHydrated: boolean;
+  setHasHydrated: (value: boolean) => void;
   addToCart: (item: Omit<CartItem, "quantity">) => void;
   increaseQuantity: (id: string) => void;
   decreaseQuantity: (id: string) => void;
@@ -74,10 +80,32 @@ interface CartStore {
   clearCart: () => void;
 }
 
+const cookieStorage: StateStorage = {
+  getItem: (name) => {
+    if (typeof document === "undefined") return null;
+    const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+    return match ? decodeURIComponent(match[1]) : null;
+  },
+  setItem: (name, value) => {
+    if (typeof document === "undefined") return;
+    document.cookie = `${name}=${encodeURIComponent(
+      value,
+    )}; path=/; max-age=31536000; samesite=lax`;
+  },
+  removeItem: (name) => {
+    if (typeof document === "undefined") return;
+    document.cookie = `${name}=; path=/; max-age=0; samesite=lax`;
+  },
+};
+
 export const useCartStore = create<CartStore>()(
   persist(
     (set) => ({
       cart: [],
+
+      hasHydrated: false,
+
+      setHasHydrated: (value) => set({ hasHydrated: value }),
 
       addToCart: (item) =>
         set((state) => {
@@ -125,6 +153,16 @@ export const useCartStore = create<CartStore>()(
     }),
     {
       name: "cart-storage",
+      storage: createJSONStorage(() => cookieStorage),
+      skipHydration: true,
+      partialize: (state) => ({ cart: state.cart }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );
+
+if (typeof window !== "undefined") {
+  void useCartStore.persist.rehydrate();
+}

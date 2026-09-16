@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/get-logged-user";
+import { useCart } from "@/providers/CartProvider";
 import { useCartStore } from "@/store/cartStore";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
@@ -32,8 +33,8 @@ export default function CartPage() {
   // if (!user) {
   //   return null;
   // }
-  const { cart, removeFromCart, increaseQuantity, decreaseQuantity } =
-    useCartStore();
+  const { removeFromCart, increaseQuantity, decreaseQuantity } = useCartStore();
+  const cart = useCart();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 

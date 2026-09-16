@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { useCart } from "@/providers/CartProvider";
 import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -41,7 +42,8 @@ export default function CheckoutPage() {
   //   redirect("/");
   // }
 
-  const { cart, clearCart } = useCartStore();
+  const clearCart = useCartStore((state) => state.clearCart);
+  const cart = useCart();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -137,7 +139,8 @@ export default function CheckoutPage() {
       toast.error("Please fill in all required fields");
       return;
     }
-    if (cart.length === 0) {
+
+  if (cart.length === 0) {
       toast.error("Your cart is empty");
       return;
     }
