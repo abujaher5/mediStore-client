@@ -1,17 +1,13 @@
 import { authClient } from "@/lib/auth-client";
-
-type UserType = {
-  id?: string;
-  name?: string;
-  email?: string;
-  role?: string;
-};
+import { useInitialUser, type SessionUser } from "@/providers/UserProvider";
 
 export const useCurrentUser = () => {
   const { data: session, isPending } = authClient.useSession();
+  const initialUser = useInitialUser();
+  const sessionUser = session?.user as SessionUser | undefined;
 
   return {
-    user: session?.user as UserType | undefined,
+    user: isPending ? (initialUser ?? sessionUser) : sessionUser,
     isPending,
   };
 };
