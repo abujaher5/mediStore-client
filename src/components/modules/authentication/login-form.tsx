@@ -60,6 +60,14 @@ export function LoginForm({
         const { data, error } = await authClient.signIn.email(value);
 
         if (error) {
+          if (error.status === 403) {
+            toast.error(
+              "Please verify your email. A new verification link has been sent.",
+              { id: toastId },
+            );
+            router.push(`/verify-email?email=${encodeURIComponent(value.email)}`);
+            return;
+          }
           toast.error(error.message, { id: toastId });
           return;
         }

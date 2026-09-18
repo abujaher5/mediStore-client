@@ -59,10 +59,11 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
           toast.error(error.message, { id: toastId });
           return;
         }
-        toast.success("User created successfully..", { id: toastId });
+        toast.success("Account created. Please verify your email.", {
+          id: toastId,
+        });
 
-        const redirect = searchParams.get("redirect") || "/";
-        router.push(redirect);
+        router.push(`/verify-email?email=${encodeURIComponent(value.email)}`);
       } catch (error) {
         toast.error("Something went wrong, please try aging later ..", {
           id: toastId,
